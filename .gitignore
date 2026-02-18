@@ -1,0 +1,9 @@
+docs/.$EB_env.drawio.bkp
+scripts/
+*.log
+verf/eb_env/restore.tcl
+verf/eb_env/restore.tcl.svcf
+verf/clk_uvc/Makefile
+verf/eb_env/Makefile
+verf/*/sim/
+verf/*/.simvision/
