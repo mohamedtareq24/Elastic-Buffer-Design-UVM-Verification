@@ -13,7 +13,7 @@ This UVM environment is designed to verify the Elastic Buffer (EB) IP in the con
 
 ### Environment Block Diagram
 
-![Environment Block Diagram](env_block_diagram.png)
+![alt text](..\docs\env_bd.png)
 
 *Figure: Insert your environment block diagram above (replace the filename as needed).*
 
