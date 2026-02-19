@@ -1,4 +1,4 @@
----
+***
 
 ## Environment Architecture
 
@@ -17,7 +17,7 @@ This UVM environment is designed to verify the Elastic Buffer (EB) IP in the con
 
 *Figure: Insert your environment block diagram above (replace the filename as needed).*
 
----
+***
 
 ## USB 3.0 Gen 1 Testcase Description
 
@@ -30,7 +30,7 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 - **Reset Behavior**: Confirms all registers and outputs reset correctly.
 - **Coverage**: Ensures all protocol scenarios (SKP, error, fill, etc.) are exercised.
 
----
+***
 
 ## Key Parameters
 
@@ -45,13 +45,13 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 | SKP Drop         | Controlled by `cfg_cor_max`                        |
 | Reset Polarity   | Active low (`sys_arst_n`)                          |
 
----
+***
 
 ## Configuration Parameters (USB 3.0 Compliance)
 - All configuration and status registers are accessible via the APB interface.
 - SKP insertion/removal thresholds are programmable for compliance and stress testing.
 
----
+***
 
 ## Scoreboard and Coverage
 
