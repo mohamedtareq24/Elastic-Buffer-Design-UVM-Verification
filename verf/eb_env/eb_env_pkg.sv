@@ -10,7 +10,9 @@ package eb_env_pkg;
 
   `include "eb_cfg.sv"
   `include "eb_scoreboard.sv"
+  `include "eb_coverage_collector.sv"
   `include "eb_env.sv"
   `include "eb_test_lib.sv"
+
 
 endpackage : eb_env_pkg
