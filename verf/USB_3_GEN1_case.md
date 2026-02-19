@@ -48,7 +48,6 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 ---
 
 ## Configuration Parameters (USB 3.0 Compliance)
-
 - All configuration and status registers are accessible via the APB interface.
 - SKP insertion/removal thresholds are programmable for compliance and stress testing.
 
@@ -60,6 +59,62 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 - Coverage model ensures all USB 3.0 protocol scenarios are exercised.
 
 ---
-
-
-
+### UVM Environment Topology 
+```
+UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+------------------------------------------------------------------------
+Name                       Type                        Size  Value
+------------------------------------------------------------------------
+uvm_test_top               fifo_test                   -     @2800
+  env                      eb_env                      -     @2866
+    clk_ag                 clk_agent                   -     @2925
+      agent_ap             uvm_analysis_port           -     @4682
+      coverage_collector   clk_coverage_collector      -     @4583
+        analysis_imp       uvm_analysis_imp            -     @4633
+      driver               clk_driver                  -     @4374
+        rsp_port           uvm_analysis_port           -     @4473
+        seq_item_port      uvm_seq_item_pull_port      -     @4424
+      monitor              clk_monitor                 -     @4453
+        ap                 uvm_analysis_port           -     @4552
+      sequencer            clk_sequencer               -     @3735
+        rsp_export         uvm_analysis_export         -     @3793
+        seq_item_export    uvm_seq_item_pull_imp       -     @4343
+        arbitration_queue  array                       0     -
+        lock_queue         array                       0     -
+        num_last_reqs      integral                    32    'd1
+        num_last_rsps      integral                    32    'd1
+    coverage_collector     eb_coverage_collector       -     @3551
+      rd_mon_imp           uvm_analysis_imp_rd_mon     -     @3651
+      wr_mon_imp           uvm_analysis_imp_wr_mon     -     @3700
+    rd_ag                  rd_agent                    -     @2985
+      monitor              rd_monitor                  -     @4749
+        ap                 uvm_analysis_port           -     @4796
+      is_active            uvm_active_passive_enum     1     UVM_PASSIVE
+    scoreboard             eb_scoreboard               -     @3015
+      rd_fifo              uvm_tlm_analysis_fifo #(T)  -     @3324
+        analysis_export    uvm_analysis_imp            -     @3572
+        get_ap             uvm_analysis_port           -     @3522
+        get_peek_export    uvm_get_peek_imp            -     @3424
+        put_ap             uvm_analysis_port           -     @3473
+        put_export         uvm_put_imp                 -     @3373
+      wr_fifo              uvm_tlm_analysis_fifo #(T)  -     @3014
+        analysis_export    uvm_analysis_imp            -     @3294
+        get_ap             uvm_analysis_port           -     @3244
+        get_peek_export    uvm_get_peek_imp            -     @3146
+        put_ap             uvm_analysis_port           -     @3195
+        put_export         uvm_put_imp                 -     @3095
+    wr_ag                  wr_agent                    -     @2955
+      driver               wr_driver                   -     @5556
+        rsp_port           uvm_analysis_port           -     @5655
+        seq_item_port      uvm_seq_item_pull_port      -     @5606
+      monitor              wr_monitor                  -     @4845
+        ap                 uvm_analysis_port           -     @4894
+      sequencer            wr_sequencer                -     @4874
+        rsp_export         uvm_analysis_export         -     @4981
+        seq_item_export    uvm_seq_item_pull_imp       -     @5525
+        arbitration_queue  array                       0     -
+        lock_queue         array                       0     -
+        num_last_reqs      integral                    32    'd1
+        num_last_rsps      integral                    32    'd1
+------------------------------------------------------------------------
+```
