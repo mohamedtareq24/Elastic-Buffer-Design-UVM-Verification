@@ -1,6 +1,6 @@
 class wr_item extends uvm_sequence_item;
   rand bit [19:0] data;
-  rand bit        is_skp;
+  rand logic      is_skp;
 
   `uvm_object_utils_begin(wr_item)
     `uvm_field_int(data,   UVM_ALL_ON)

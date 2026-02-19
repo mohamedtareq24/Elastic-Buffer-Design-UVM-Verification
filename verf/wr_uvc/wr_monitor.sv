@@ -28,7 +28,7 @@ class wr_monitor extends uvm_component;
       if (vif.vld === 1'b1) begin
         tr = wr_item::type_id::create("tr");
         tr.data = vif.data_in;
-        tr.is_skp = 1'b0;
+        tr.is_skp = 1'bx;
         ap.write(tr);
       end
     end

@@ -50,8 +50,6 @@ class clk_driver extends uvm_driver#(base_clk_transaction);
             sys_ssc_ppm = (base_tr.ssc_enable) ? base_tr.sys_ssc_ppm : 0;
             cdr_ssc_ppm = (base_tr.ssc_enable) ? base_tr.cdr_ssc_ppm : 0;
 
-            // Choose the ramp start.
-            // (If you don't care, leave these at defaults.)
             if (ssc_enable) begin
                 sys_current_delta_ps = real'(base_tr.sys_curnt_offset_ps);
                 cdr_current_delta_ps = real'(base_tr.cdr_curnt_offset_ps);
@@ -73,10 +71,15 @@ class clk_driver extends uvm_driver#(base_clk_transaction);
             real period_ps;
             real half_period_ps;
             period_ps = get_next_period_ps(real'(sys_period_ps), sys_ssc_ppm, sys_current_delta_ps, sys_ramp_dir);
-            if (period_ps < 1.0) period_ps = 1.0;
-            half_period_ps = period_ps / 2.0 ;
-            #(half_period_ps * 1ps);
-            vif.sys_clk = ~vif.sys_clk;
+            if (period_ps != 0.0) 
+            begin
+                half_period_ps = period_ps / 2.0 ;
+                #(half_period_ps * 1ps);
+                vif.sys_clk = ~vif.sys_clk;
+            end
+            else begin
+                #(100 * 1ps);
+            end
         end
     endtask
 
@@ -87,10 +90,15 @@ class clk_driver extends uvm_driver#(base_clk_transaction);
             real period_ps;
             real half_period_ps;
             period_ps = get_next_period_ps(real'(cdr_period_ps), cdr_ssc_ppm, cdr_current_delta_ps, cdr_ramp_dir);
-            if (period_ps < 1.0) period_ps = 1.0;
-            half_period_ps = period_ps / 2.0;
-            #(half_period_ps * 1ps);
-            vif.cdr_clk = ~vif.cdr_clk;
+            if (period_ps != 0.0) 
+            begin
+                half_period_ps = period_ps / 2.0;
+                #(half_period_ps * 1ps);
+                vif.cdr_clk = ~vif.cdr_clk;
+            end
+            else begin
+                #(100 * 1ps);
+            end
         end
     endtask
 
