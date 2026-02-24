@@ -14,8 +14,8 @@ class eb_coverage_collector extends uvm_component;
         wr_data_cp: coverpoint wr_tr.data {
             bins max_bin     = {20'hFFFFF};
             bins min_bin     = {20'h00000};
-            bins skp1_bin    = USB_SKP_VAL_1;
-            bins skp2_bin    = USB_SKP_VAL_2;
+            bins skp1_bin    = eb_common_pkg::USB_SKP_VAL_1;
+            bins skp2_bin    = eb_common_pkg::USB_SKP_VAL_2;
             bins others = default;
         }
     endgroup
@@ -24,8 +24,8 @@ class eb_coverage_collector extends uvm_component;
         rd_data_cp: coverpoint rd_tr.data {
             bins max_bin     = {20'hFFFFF};
             bins min_bin     = {20'h00000};
-            bins skp1_bin    = USB_SKP_VAL_1;
-            bins skp2_bin    = USB_SKP_VAL_2;
+            bins skp1_bin    = eb_common_pkg::USB_SKP_VAL_1;
+            bins skp2_bin    = eb_common_pkg::USB_SKP_VAL_2;
             bins others = default;
         }
     endgroup
@@ -51,8 +51,8 @@ class eb_coverage_collector extends uvm_component;
 
     virtual function write_wr_mon (wr_item t);
         wr_tr = t;
-        if (wr_tr.data === USB_SKP_VAL_1 || wr_tr.data === USB_SKP_VAL_2) begin
-            `uvm_info(get_type_name(), $sformatf("SKP value observed: 0x%h", wr_tr.data), UVM_LOW)
+        if (wr_tr.data === eb_common_pkg::USB_SKP_VAL_1 || wr_tr.data === eb_common_pkg::USB_SKP_VAL_2) begin
+            `uvm_info(get_type_name(), $sformatf("SKP value observed: 0x%h", wr_tr.data), UVM_HIGH)
         end
         wr_cg.sample();
     endfunction

@@ -92,7 +92,12 @@ module eb_assertions #(
     // After a rising edge on wr_data_vld_i wait for the 1st time cfg_cor_min_i cycles have passed followed by a high on data_valid_out_o
     property valid_o_rise;
         @(posedge sys_clk_i) disable iff (!sys_arst_n_i)
-            $rose(wr_data_vld_i) |-> (aux_cnt == (cfg_cor_min_i))[->1] ##1 data_valid_out_o ;
+            $rose(wr_data_vld_i) |-> (aux_cnt == (cfg_cor_min_i))[->1] ##[1:3] data_valid_out_o ;
+    endproperty
+
+    property valid_o_rise_fill_state;
+        @(posedge sys_clk_i) disable iff (!sys_arst_n_i)
+            $rose(wr_data_vld_i) |-> ( cfg_cor_min_i == stat_fill_level_o)[->1] ##1 data_valid_out_o ;
     endproperty
 
     // data_valid_out_o should remain high until reset
@@ -103,8 +108,10 @@ module eb_assertions #(
     
 
     a_valid__o_rise: assert property (valid_o_rise)
-        else `uvm_error("EB_ASSERT_VALID_O", $sformatf("data_valid_out_o=%0b does not match expected behavior based on wr_data_vld_i and cfg_cor_min_i", data_valid_out_o))
+        else `uvm_error("EB_ASSERT_VALID_O", $sformatf("data_valid_out_o=%0b , stat_fill_level_o=%0d does not match expected behavior based on wr_data_vld_i and cfg_cor_min_i ", data_valid_out_o, stat_fill_level_o))
 
+    a_valid__o_rise_fill_state: assert property (valid_o_rise_fill_state)
+        else `uvm_error("EB_ASSERT_VALID_O_FILL_STATE", $sformatf("data_valid_out_o=%0b , stat_fill_level_o=%0d does not match expected behavior based on wr_data_vld_i and stat_fill_level_o ", data_valid_out_o, stat_fill_level_o))
     a_valid_o_sticky: assert property (valid_o_sticky_high)
         else `uvm_error("EB_ASSERT_VALID_O_STICKY", $sformatf("data_valid_out_o=%0b expected to remain stable until reset", data_valid_out_o))
 

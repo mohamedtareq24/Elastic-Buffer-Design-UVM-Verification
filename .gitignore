@@ -7,5 +7,6 @@ verf/clk_uvc/Makefile
 verf/eb_env/Makefile
 verf/*/sim/
 verf/*/.simvision/
-verf/eb_env/cov_work/icc_00000000_7a7655ac.ucd
-verf/eb_env/cov_work/icc_00000000_7a7655ac.ucm
+verf/eb_env/cov_work/
+verf/eb_env/cov_work/
+verf/eb_env/cov_work/

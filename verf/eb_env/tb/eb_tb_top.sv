@@ -20,7 +20,7 @@ module eb_tb_top;
 
   // Simple static config for now (APB agent can override later)
 
-  localparam logic [5:0]  COR_MAX = 6'd24;
+  localparam logic [5:0]  COR_MAX = 6'd8;
   localparam logic [5:0]  COR_MIN = 6'd8;
   localparam logic [19:0] SKP1    = eb_common_pkg::USB_SKP_VAL_1;
   localparam logic [19:0] SKP2    = eb_common_pkg::USB_SKP_VAL_2;
@@ -30,9 +30,10 @@ module eb_tb_top;
   // For now, we configure the DUT via static ports.
   // Later, will replace these with an APB agent + apb_wrapper + (optional)
   // UVM RAL so tests program registers like a real system.
+
   elastic_buffer #(
     .DATA_WIDTH(20),
-    .FIFO_DEPTH(8)
+    .FIFO_DEPTH(16)
   ) dut (
     .cdr_clk_i(clk_vif.cdr_clk),
     .sys_clk_i(clk_vif.sys_clk),
@@ -62,6 +63,8 @@ module eb_tb_top;
     // Keep scoreboard SKP filtering aligned with DUT SKP configuration.
     cfg.skp_val_1 = SKP1;
     cfg.skp_val_2 = SKP2;
+    cfg.cor_min = COR_MIN;
+    cfg.cor_max = COR_MAX;
 
   
     uvm_config_db#(virtual clk_if)::set(null, "uvm_test_top.env.clk_ag.*", "vif", clk_vif);
