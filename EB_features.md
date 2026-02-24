@@ -1,4 +1,3 @@
-
 # Elastic Buffer (EB) Design Overview
 
 ## Design Summary
@@ -6,23 +5,41 @@ The Elastic Buffer (EB) is a rate-matching FIFO designed for high-speed serial i
 
 ---
 
-### **Key Features**
-
-**Clock Tolerance Compensation (CTC):**
-* **Skip Deletion (Overflow Protection):** Drops a Skip Marker when the FIFO level exceeds the `cfg_high_watermark`.
-* **Skip Insertion (Underflow Protection):** Replays a Skip Marker when the FIFO level falls below the `cfg_low_watermark`.
-* **Atomic Handling:** Performs insertions and deletions on the full datapath width to maintain protocol compliance and running disparity.
 
 
-**Streaming Data Interface (Push Model):**
-* **No Backpressure:** The buffer continuously accepts data from the source and pushes data to the sink without pausing.
-* **Startup Synchronization:** Output valid (`vld_o`) is asserted only after the buffer reaches the **Half-Full** threshold to ensure maximum drift margin.
 
+### **Elastic Buffer V1.0 Features**
+#### **Clock Tolerance Compensation (CTC):**
+**SKP Drop:**
+- The EB shall drop SKP symbols indicated by `cfg_cor_seq_val_1` and `cfg_cor_seq_val_2` if the FIFO's fill level is greater than `cfg_cor_max`.
 
-**Error Handling & Status:**
-* **Overflow Error:** Triggered if valid data arrives when the FIFO is full.
-* **Underflow Error:** Triggered if the stream is active but the FIFO is empty.
+**SKP Insertion:**
+- The EB shall insert SKP symbols indicated by `cfg_cor_seq_val_1` and `cfg_cor_seq_val_2` if the fill level is lower than `cfg_cor_min`, while maintaining synchronized running disparities.
 
+**No Backpressure:**
+- The EB shall not apply any backpressure on the write side and handle continuous data flow.
+
+**Valid Data:**
+- The EB shall assert `vld_o` upon reaching the fill level greater than `cfg_cor_min` once and for all until a reset.
+
+**Error Data:**
+- The FIFO shall indicate `ErrorState` if the FIFO is full and valid data is present.
+- The FIFO shall indicate `ErrorState` if the FIFO is empty.
+
+**FIFO Memory:**
+- All memory locations can be written to and read from.
+
+**FIFO Reset:**
+- On the negative edge of `sys_arst_n`, all registers shall take reset values.
+
+**SKP Add Event:**
+- On SKP addition, the `skp_add_ev_o` shall be asserted for one cycle.
+
+**SKP Drop Event:**
+- On SKP drop, `skp_drop_ev_o` shall be asserted for one cycle.
+
+**FIFO Fill Level:**
+- The `stat_fill_level_o` shall always convey FIFO occupancy.
 
 ## Register Space
 

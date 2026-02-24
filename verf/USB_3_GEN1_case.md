@@ -1,4 +1,4 @@
-***
+---
 
 ## Environment Architecture
 
@@ -13,9 +13,11 @@ This UVM environment is designed to verify the Elastic Buffer (EB) IP in the con
 
 ### Environment Block Diagram
 
-![alt text](../docs/env_bd.png)
+![Environment Block Diagram](env_block_diagram.png)
 
-***
+*Figure: Insert your environment block diagram above (replace the filename as needed).*
+
+---
 
 ## USB 3.0 Gen 1 Testcase Description
 
@@ -28,7 +30,7 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 - **Reset Behavior**: Confirms all registers and outputs reset correctly.
 - **Coverage**: Ensures all protocol scenarios (SKP, error, fill, etc.) are exercised.
 
-***
+---
 
 ## Key Parameters
 
@@ -43,18 +45,36 @@ The USB 3.0 Gen 1 testcase validates the EB under realistic PHY conditions:
 | SKP Drop         | Controlled by `cfg_cor_max`                        |
 | Reset Polarity   | Active low (`sys_arst_n`)                          |
 
-***
+---
 
 ## Configuration Parameters (USB 3.0 Compliance)
 - All configuration and status registers are accessible via the APB interface.
 - SKP insertion/removal thresholds are programmable for compliance and stress testing.
 
-***
+---
 
 ## Scoreboard and Coverage
 
 - The scoreboard checks for correct data, SKP, and error propagation.
 - Coverage model ensures all USB 3.0 protocol scenarios are exercised.
+
+---
+
+## Testplan
+
+The following testplan outlines the key features to be verified for the Elastic Buffer (EB) in the USB 3.0 Gen 1 environment:
+
+| Feature Name       | Type of Stimulus | Method of Coverage | How will it be checked |
+|--------------------|------------------|--------------------|-------------------------|
+| SKP Drop          | Random           | Cover property     | Scoreboard             |
+| SKP insertion     | Random           | Cover property     | Scoreboard             |
+| Valid data        | Random           | Cover property     | Assertion              |
+| Error data        | Random           | Cover point        | Assertion              |
+| FIFO memory       | Random           | Cover point        | Scoreboard             |
+| FIFO reset        | Directed         | Cover point        | Assertion              |
+| SKP Add event     | Directed         | Cover property     | Assertion              |
+| SKP drop event    | Directed         | Cover property     | Assertion              |
+| FIFO fill level   | Random           | Cover point        | Scoreboard             |
 
 ---
 ### UVM Environment Topology 
