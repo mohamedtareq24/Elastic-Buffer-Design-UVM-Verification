@@ -27,9 +27,8 @@ class clk_fifo_seq extends clk_base_seq;
     base_clk_transaction tr;
     tr = base_clk_transaction::type_id::create("tr");
     start_item(tr);
-    assert(tr.randomize() with {
-        run_cycles == 64 ;
-      })else`uvm_fatal("CLKSEQ", "Failed to randomize fifo clock transaction")
+    assert(tr.randomize())
+    else `uvm_fatal("CLKSEQ", "Failed to randomize fifo clock transaction")
 
     finish_item(tr);
   endtask
@@ -110,5 +109,55 @@ class clk_usb_seq_under_flow extends clk_usb_seq;
     end
     finish_item(tr);
   endtask
-
 endclass
+
+// Testing Write controller SKP handling
+// Write clock period is set faster than read clock to trigger SKP drops in the write controller 
+//when the buffer exceeds the max threshold
+class wr_skp_drop_clk extends clk_base_seq;
+  `uvm_object_utils(wr_skp_drop_clk)
+
+  function new(string name = "wr_skp_drop_clk");
+    super.new(name);
+  endfunction
+  
+  base_clk_transaction tr;
+
+  virtual task body();
+    tr = base_clk_transaction::type_id::create("tr");
+    start_item(tr);
+    assert(tr.randomize() with {
+        ssc_enable == 0 ;          
+      }) else `uvm_fatal("CLKSEQ", "Failed to randomize SKP insert clock transaction")
+    tr.ssc_enable = 0; // Force SSC off to simplify SKP insertion testing
+    tr.sys_clk_period_ps = 4020; 
+    tr.cdr_clk_period_ps = 3999; 
+    finish_item(tr);
+  endtask
+endclass
+
+
+// For Testing Read controller SKP handling
+// Read clock period is set slower than write clock to trigger SKP insertions in the read controller 
+//when the buffer is lower than min threshold
+class rd_skp_insert_clk extends clk_base_seq;
+  `uvm_object_utils(rd_skp_insert_clk)
+
+  function new(string name = "rd_skp_insert_clk");
+    super.new(name);
+  endfunction
+  
+  base_clk_transaction tr;
+
+  virtual task body();
+    tr = base_clk_transaction::type_id::create("tr");
+    start_item(tr);
+    assert(tr.randomize() with {
+        ssc_enable == 0 ;          
+      }) else `uvm_fatal("CLKSEQ", "Failed to randomize SKP insert clock transaction")
+    tr.ssc_enable = 0; // Force SSC off to simplify SKP insertion testing
+    tr.sys_clk_period_ps = 3999; 
+    tr.cdr_clk_period_ps = 4020; 
+    finish_item(tr);
+  endtask
+  endclass
