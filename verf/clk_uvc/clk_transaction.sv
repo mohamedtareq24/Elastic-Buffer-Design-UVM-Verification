@@ -4,7 +4,6 @@ class base_clk_transaction extends uvm_sequence_item;
 
   rand int unsigned sys_clk_period_ps;
   rand int unsigned cdr_clk_period_ps;
-  rand int unsigned run_cycles;
   rand int unsigned sys_ssc_ppm;    
   rand int unsigned cdr_ssc_ppm;    
 
@@ -19,7 +18,6 @@ class base_clk_transaction extends uvm_sequence_item;
   `uvm_object_utils_begin(base_clk_transaction)
     `uvm_field_int(sys_clk_period_ps, UVM_ALL_ON | UVM_DEC)
     `uvm_field_int(cdr_clk_period_ps, UVM_ALL_ON | UVM_DEC)
-    `uvm_field_int(run_cycles,        UVM_ALL_ON | UVM_DEC)
     `uvm_field_int(sys_ssc_ppm,       UVM_ALL_ON | UVM_DEC)
     `uvm_field_int(cdr_ssc_ppm,       UVM_ALL_ON | UVM_DEC)
     `uvm_field_int(sys_ssc_dir,       UVM_ALL_ON)
@@ -32,9 +30,7 @@ class base_clk_transaction extends uvm_sequence_item;
     sys_clk_period_ps == 4000 ;  // 4ns +/- 1ps
     cdr_clk_period_ps == 4000 ;
   }
-  constraint c_run {
-    run_cycles  < 100000 ;
-  }
+
   constraint c_ssc {
     sys_ssc_ppm   == 0    ; 
     cdr_ssc_ppm   == 0    ;

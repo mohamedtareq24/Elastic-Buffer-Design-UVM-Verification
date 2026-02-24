@@ -30,38 +30,30 @@ class clk_driver extends uvm_driver#(base_clk_transaction);
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        base_clk_transaction  base_tr;
 
+        base_clk_transaction  tr;
+        seq_item_port.get_next_item(tr);
+        `uvm_info("CLKDRV", {"Got :\n", tr.sprint()}, UVM_MEDIUM)
+        sys_period_ps = tr.sys_clk_period_ps;
+        cdr_period_ps = tr.cdr_clk_period_ps;
+        ssc_enable = tr.ssc_enable;
+        sys_ssc_ppm = (tr.ssc_enable) ? tr.sys_ssc_ppm : 0;
+        cdr_ssc_ppm = (tr.ssc_enable) ? tr.cdr_ssc_ppm : 0;
+        if (ssc_enable) begin
+            sys_current_delta_ps = real'(tr.sys_curnt_offset_ps);
+            cdr_current_delta_ps = real'(tr.cdr_curnt_offset_ps);
+            sys_ramp_dir = (tr.sys_ssc_dir) ? 1 : -1;
+            cdr_ramp_dir = (tr.cdr_ssc_dir) ? 1 : -1;
+        end
+        seq_item_port.item_done();
+        // Clock Sequneces are single transction sequences, 
+        //so we don't expect another item..
+        // Fire & Forget the Clocks
         fork
             drive_sys_clk();
             drive_cdr_clk();
-        join_none
+        join
 
-        forever begin
-            seq_item_port.get_next_item(base_tr);
-
-            // Print the received transaction (useful for debug/bring-up)
-            `uvm_info("CLKDRV", {"Got base_clk_transaction:\n", base_tr.sprint()}, UVM_MEDIUM)
-
-            sys_period_ps = base_tr.sys_clk_period_ps;
-            cdr_period_ps = base_tr.cdr_clk_period_ps;
-
-            ssc_enable = base_tr.ssc_enable;
-            sys_ssc_ppm = (base_tr.ssc_enable) ? base_tr.sys_ssc_ppm : 0;
-            cdr_ssc_ppm = (base_tr.ssc_enable) ? base_tr.cdr_ssc_ppm : 0;
-
-            if (ssc_enable) begin
-                sys_current_delta_ps = real'(base_tr.sys_curnt_offset_ps);
-                cdr_current_delta_ps = real'(base_tr.cdr_curnt_offset_ps);
-                sys_ramp_dir = (base_tr.sys_ssc_dir) ? 1 : -1;
-                cdr_ramp_dir = (base_tr.cdr_ssc_dir) ? 1 : -1;
-            end
-
-            // Run for requested duration, then accept the next item
-            repeat (base_tr.run_cycles) @(posedge vif.sys_clk);
-
-            seq_item_port.item_done();
-        end
     endtask
 
     task automatic drive_sys_clk();
