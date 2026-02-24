@@ -26,13 +26,9 @@ class wr_driver extends uvm_driver#(wr_item);
     forever begin
       seq_item_port.get_next_item(tr);
       `uvm_info("WRDRV", {"Driving wr_item:\n", tr.sprint()}, UVM_HIGH)
-      @(posedge vif.clk);
+      @(negedge vif.clk);
+      vif.vld <= 1'b1;
       vif.data_in <= tr.data;
-      vif.vld     <= 1'b1;
-
-      // @(posedge vif.clk);
-      // vif.vld     <= 1'b0;
-
       seq_item_port.item_done();
     end
   endtask

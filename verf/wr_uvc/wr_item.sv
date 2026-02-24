@@ -22,9 +22,9 @@ class usb_wr_item extends wr_item;
   function post_randomize();
     if (is_skp) begin
       if ($urandom_range(0, 1) == 0) begin
-        data = USB_SKP_VAL_1;
+        data = eb_common_pkg::USB_SKP_VAL_1;
       end else begin
-        data = USB_SKP_VAL_2;
+        data = eb_common_pkg::USB_SKP_VAL_2;
       end
     end
   endfunction
