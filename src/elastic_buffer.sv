@@ -84,14 +84,17 @@ module elastic_buffer #(
   
   // Write domain (cdr_clk) - BINARY
   logic [$clog2(FIFO_DEPTH):0]    wr_ptr_bin;
+  logic [$clog2(FIFO_DEPTH):0]    wr_ptr_bin_d, wr_ptr_bin_dd;
   logic [$clog2(FIFO_DEPTH):0]    wr_ptr_gray;
   
   // Read domain (sys_clk) - BINARY
   logic [$clog2(FIFO_DEPTH):0]    rd_ptr_bin;
   logic [$clog2(FIFO_DEPTH):0]    rd_ptr_gray;
   // Internal Signals
-  logic [DATA_WIDTH-1:0]          wr_data;
-  logic                           wr_en;
+  logic [DATA_WIDTH-1:0]            wr_data;
+  logic                             wr_en;
+  logic [$clog2(FIFO_DEPTH)-1:0]    wr_addr;
+
 
   // CDC synchronized pointers (Gray after sync, then converted to binary)
   logic [$clog2(FIFO_DEPTH):0]    wr_ptr_gray_d, wr_ptr_gray_dd;  // wr sys CDC
@@ -115,7 +118,7 @@ module elastic_buffer #(
   assign wr_ptr_gray = bin2gray(wr_ptr_bin);
   assign rd_ptr_gray = bin2gray(rd_ptr_bin); 
   // Fill level calculations
-  assign wr_fill_level = wr_ptr_bin - rd_ptr_in_cdr;
+  assign wr_fill_level = wr_ptr_bin_dd - rd_ptr_in_cdr;
   assign rd_fill_level_comb = wr_ptr_in_sys - rd_ptr_bin;
 
   // =========================================================================
@@ -134,12 +137,14 @@ module elastic_buffer #(
         // DROP SKP: buffer is getting full
         wr_en            <= 1'b0;
         drop_evt_tgl_cdr <= ~drop_evt_tgl_cdr; 
+
       end
       else begin
         // Normal write
         wr_en      <= 1'b1;
         wr_ptr_bin <= wr_ptr_bin + 1'b1; 
         wr_data    <= data_in_i;
+        wr_addr    <= wr_ptr_bin[$clog2(FIFO_DEPTH)-1:0];
       end
     end
     else begin
@@ -150,8 +155,10 @@ module elastic_buffer #(
   // Memory write port (CDR clock domain)
   always_ff @(posedge cdr_clk_i) begin
     if (wr_en) begin
-      fifo_mem[wr_ptr_bin[$clog2(FIFO_DEPTH)-1:0]] <= wr_data;
+      fifo_mem[wr_addr] <= wr_data;
     end
+    wr_ptr_bin_d   <= wr_ptr_bin;
+    wr_ptr_bin_dd  <= wr_ptr_bin_d;
   end
 
   // Memory read port (CDR clock domain) - registered for CDC safety
@@ -240,11 +247,11 @@ module elastic_buffer #(
         stat_cnt_add_o      <= stat_cnt_add_o + 16'd1;
         skp_add_evt_pulse_o <= 1'b1;
       end
-      else begin
+      else if ((rd_fill_level_comb >= cfg_cor_min_i) | (data_valid_out_o)) begin
         // Normal read
         rd_en         <= 1'b1;
         rd_ptr_bin    <= rd_ptr_bin + 1'b1;  // Simple binary increment
-        rd_data_out_o <= rd_data_for_skp_check;
+        rd_data_out_o <= fifo_mem[rd_ptr_bin[$clog2(FIFO_DEPTH)-1:0]];
       end
     end
   end
