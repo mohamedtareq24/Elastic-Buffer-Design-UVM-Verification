@@ -23,6 +23,8 @@ class base_clk_transaction extends uvm_sequence_item;
     `uvm_field_int(sys_ssc_dir,       UVM_ALL_ON)
     `uvm_field_int(cdr_ssc_dir,       UVM_ALL_ON)
     `uvm_field_int(ssc_enable,       UVM_ALL_ON)
+    `uvm_field_int(sys_curnt_offset_ps, UVM_ALL_ON | UVM_DEC)
+    `uvm_field_int(cdr_curnt_offset_ps, UVM_ALL_ON | UVM_DEC)
   `uvm_object_utils_end
   
 
@@ -52,6 +54,7 @@ endclass
 
 class usb_clk_transaction extends base_clk_transaction;
   `uvm_object_utils(usb_clk_transaction)
+
   constraint c_periods {
     sys_clk_period_ps inside {[3999:4001]};  // 4ns +/- 1ps
     cdr_clk_period_ps inside {[3999:4001]};
