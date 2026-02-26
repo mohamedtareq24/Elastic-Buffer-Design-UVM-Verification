@@ -111,42 +111,6 @@ endclass
 
 
 //=============================================================================
-// eb_usb_test
-//=============================================================================
-// USB 3.0 Gen1 compliant test with periodic SKP ordered sets.
-// 
-// Description:
-//   Tests the elastic buffer in USB 3.0 Gen1 operation mode with asynchronous
-//   clocking. Verifies proper handling of SKP ordered sets that are inserted
-//   periodically according to USB 3.0 specification (approximately every 354 symbols).
-// 
-// Sequences Used:
-//   - clk_usb_seq: Generates asynchronous clocks simulating USB PHY behavior
-//   - wr_usb_seq: Writes data with periodic SKP ordered sets per USB 3.0 spec
-// 
-// Test Focus:
-//   - Asynchronous clock domain crossing
-//   - USB 3.0 SKP ordered set handling
-//   - Clock compensation via SKP insertion/removal
-//   - Elastic buffer depth management
-//=============================================================================
-// class eb_usb_test extends eb_test_base;
-
-//   `uvm_component_utils(eb_usb_test)
-
-//   function new(string name = "eb_usb_test", uvm_component parent = null);
-//     super.new(name, parent);
-//   endfunction
-
-//   virtual function void build_phase(uvm_phase phase);
-//     set_type_override_by_type(clk_base_seq::get_type(), clk_usb_seq::get_type());
-//     set_type_override_by_type(wr_seq_base::get_type(), wr_usb_seq::get_type());
-//     super.build_phase(phase);
-//   endfunction
-
-// endclass
-
-//=============================================================================
 // eb_counting_test
 //=============================================================================
 // USB mode test with counting data pattern for data integrity verification.
@@ -177,7 +141,7 @@ class eb_counting_test extends eb_test_base;
 
   virtual function void build_phase(uvm_phase phase);
     set_type_override_by_type(clk_base_seq::get_type(), clk_usb_seq::get_type());
-    set_type_override_by_type(wr_seq_base::get_type(), wr_usb_seq_counting::get_type());
+    set_type_override_by_type(wr_seq_base::get_type(), wr_counting_seq::get_type());
       set_type_override_by_type(wr_item::get_type(), usb_wr_item::get_type());
     super.build_phase(phase);
   endfunction
@@ -220,15 +184,55 @@ class eb_wr_skp_test extends eb_test_base;
   endfunction
 endclass
 
-class eb_rd_skp_test extends eb_test_base;
+class eb_rd_skp_test extends eb_test_base; 
   `uvm_component_utils(eb_rd_skp_test) 
   function new(string name = "eb_rd_skp_test", uvm_component parent = null);
     super.new(name, parent);
   endfunction
   virtual function void build_phase(uvm_phase phase);
     set_type_override_by_type(clk_base_seq::get_type(), rd_skp_insert_clk::get_type());
-    set_type_override_by_type(wr_seq_base::get_type(), wr_skp_insert_seq::get_type());
+    set_type_override_by_type(wr_seq_base::get_type(), wr_skp_multi_packet_seq::get_type());
     set_type_override_by_type(wr_item::get_type(), usb_wr_item::get_type());
     super.build_phase(phase);
   endfunction
 endclass
+
+
+// =============================================================================
+// eb_usb_test
+// =============================================================================
+// USB 3.0 Gen1 compliant test with periodic SKP ordered sets.
+
+// Description:
+//   Tests the elastic buffer in USB 3.0 Gen1 operation mode with asynchronous
+//   clocking. Verifies proper handling of SKP ordered sets that are inserted
+//   periodically according to USB 3.0 specification (approximately every 354 symbols).
+
+// Sequences Used:
+//   - clk_usb_seq: Generates asynchronous clocks simulating USB PHY behavior
+//   - wr_usb_seq: Writes data with periodic SKP ordered sets per USB 3.0 spec
+
+// Test Focus:
+//   - Asynchronous clock domain crossing
+//   - USB 3.0 SKP ordered set handling
+//   - Clock compensation via SKP insertion/removal
+//   - Elastic buffer depth management
+// =============================================================================
+class eb_usb_test extends eb_test_base;
+
+  `uvm_component_utils(eb_usb_test)
+
+  function new(string name = "eb_usb_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+
+  virtual function void build_phase(uvm_phase phase);
+    set_type_override_by_type(clk_base_seq::get_type(), clk_max_ssc_seq::get_type());
+    set_type_override_by_type(wr_seq_base::get_type(), wr_skp_multi_packet_seq::get_type());
+    set_type_override_by_type(wr_item::get_type(), usb_wr_item::get_type());
+    super.build_phase(phase);
+  endfunction
+
+endclass
+
+

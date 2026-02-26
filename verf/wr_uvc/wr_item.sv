@@ -1,11 +1,9 @@
 class wr_item extends uvm_sequence_item;
+  `uvm_object_utils(wr_item)
   rand bit [19:0] data;
   rand logic      is_skp;
+  
 
-  `uvm_object_utils_begin(wr_item)
-    `uvm_field_int(data,   UVM_ALL_ON)
-    `uvm_field_int(is_skp, UVM_ALL_ON)
-  `uvm_object_utils_end
 
   function new(string name = "wr_item");
     super.new(name);
@@ -18,14 +16,20 @@ class usb_wr_item extends wr_item;
   function new(string name = "usb_wr_item");
     super.new(name);
   endfunction
+  constraint c_skp_dist {
+    is_skp dist { 1 := 1, 0 := 176 };
+  }
 
-  function post_randomize();
-    if (is_skp) begin
-      if ($urandom_range(0, 1) == 0) begin
-        data = eb_common_pkg::USB_SKP_VAL_1;
-      end else begin
-        data = eb_common_pkg::USB_SKP_VAL_2;
-      end
-    end
-  endfunction
+  constraint c_skp_data {
+    if (is_skp) {
+      data == eb_common_pkg::USB_SKP_VAL_1 ||
+      data == eb_common_pkg::USB_SKP_VAL_2;
+    }
+    else {
+      data != eb_common_pkg::USB_SKP_VAL_1;
+      data != eb_common_pkg::USB_SKP_VAL_2;
+    }
+    // solve is_skp before data;
+  }
+
 endclass : usb_wr_item

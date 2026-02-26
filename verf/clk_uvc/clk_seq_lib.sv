@@ -161,3 +161,25 @@ class rd_skp_insert_clk extends clk_base_seq;
     finish_item(tr);
   endtask
   endclass
+
+class clk_max_ssc_seq extends clk_base_seq;
+  `uvm_object_utils(clk_max_ssc_seq)
+
+  function new(string name = "clk_max_ssc_seq");
+    super.new(name);
+  endfunction
+  
+  virtual task body();
+    usb_clk_transaction tr;
+    tr = usb_clk_transaction::type_id::create("tr");
+    start_item(tr);
+    if (!tr.randomize() with {
+        sys_ssc_ppm          == 5000 ;
+        cdr_ssc_ppm          == 5000 ;
+        ssc_enable           == 1 ;
+      }) begin
+      `uvm_fatal("CLKSEQ", "Failed to randomize usb clock transaction (max SSC)")
+    end
+    finish_item(tr);
+  endtask
+endclass
