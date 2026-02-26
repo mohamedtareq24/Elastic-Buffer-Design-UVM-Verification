@@ -29,6 +29,8 @@ class wr_driver extends uvm_driver#(wr_item);
       @(negedge vif.clk);
       vif.vld <= 1'b1;
       vif.data_in <= tr.data;
+      @(posedge vif.clk);
+      vif.vld     <= 1'b0;
       seq_item_port.item_done();
     end
   endtask
