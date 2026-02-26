@@ -4,9 +4,7 @@
 class rd_agent extends uvm_agent;
   uvm_active_passive_enum is_active = UVM_PASSIVE;
   
-  `uvm_component_utils_begin(rd_agent)
-    `uvm_field_enum(uvm_active_passive_enum, is_active, UVM_ALL_ON)
-  `uvm_component_utils_end  
+  `uvm_component_utils(rd_agent)
 
   rd_monitor   monitor;
 
