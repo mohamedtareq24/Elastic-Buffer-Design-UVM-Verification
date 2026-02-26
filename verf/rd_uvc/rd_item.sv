@@ -2,14 +2,12 @@
 `define RD_ITEM_SV
 
 class rd_item extends uvm_sequence_item;
+  `uvm_object_utils(rd_item)
   // Ready driving item
   rand bit        ready;
   rand int unsigned hold_cycles;
 
-  `uvm_object_utils_begin(rd_item)
-    `uvm_field_int(ready,       UVM_ALL_ON)
-    `uvm_field_int(hold_cycles, UVM_ALL_ON)
-  `uvm_object_utils_end
+
 
   constraint c_hold { hold_cycles inside {[1:1000]}; }
 
