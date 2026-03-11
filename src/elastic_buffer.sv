@@ -35,7 +35,7 @@ module elastic_buffer #(
     input  logic [19:0]             cfg_cor_seq_val_1_i, // Holds bytes for Seq 1,2
     input  logic [19:0]             cfg_cor_seq_val_2_i, // Holds bytes for Seq 1,2
 
-    // input  logic                    cfg_eb_enable_i,   // 1 = Run, 0 = Reset/Bypass
+    //input  logic                    cfg_eb_enable_i,   // 1 = Run, 0 = Reset/Bypass
 
     // =========================================================================
     // 4. STATUS OUTPUTS (To BUF STAT Register)
@@ -46,7 +46,7 @@ module elastic_buffer #(
     output logic [15:0]             stat_cnt_add_o,         // Count of SKPs inserted
     output logic [15:0]             stat_cnt_drop_o,        // Count of SKPs dropped
 
-    // 1-cycle event pulses in sys_clk domain (for APB wrapper to latch)
+   // Sideband signals , also accessible via APB
     output logic                    skp_add_evt_pulse_o,
     output logic                    skp_drop_evt_pulse_o,
 
@@ -112,7 +112,8 @@ module elastic_buffer #(
   logic [$clog2(FIFO_DEPTH):0]     rd_fill_level_comb;
 
   logic drop_evt_tgl_cdr;
-  logic drop_evt_tgl_sys_d, drop_evt_tgl_sys_dd;
+  logic drop_evt_tgl_level;
+  logic drop_evt_tgl_sys_d, drop_evt_tgl_sys_dd, drop_evt_tgl_sys_ddd;
 
   
   assign wr_ptr_gray = bin2gray(wr_ptr_bin);
@@ -168,7 +169,7 @@ module elastic_buffer #(
   end
 
   // =========================================================================
-  // CDC: Write pointer → Read domain (cdr → sys)
+  // CDC: Write pointer -> Read domain (cdr -> sys)
   // =========================================================================
   always_ff @(posedge sys_clk_i or negedge sys_arst_n_i) begin
     if (!sys_arst_n_i) begin
@@ -184,7 +185,7 @@ module elastic_buffer #(
   end
 
   // =========================================================================
-  // CDC: Read pointer → Write domain (sys → cdr)
+  // CDC: Read pointer -> Write domain (sys -> cdr)
   // =========================================================================
   always_ff @(posedge cdr_clk_i or negedge sys_arst_n_i) begin
     if (!sys_arst_n_i) begin
@@ -259,8 +260,33 @@ module elastic_buffer #(
   // Fill level output
   assign stat_fill_level_o = rd_fill_level;
   
-  // Error status (placeholder for now)
-  assign err_status_o = 3'b000;
+
+  always_ff @(posedge sys_clk_i or negedge sys_arst_n_i) begin
+    if (!sys_arst_n_i) begin
+      err_status_o <= 3'b000;
+    end else if ((rd_fill_level == (FIFO_DEPTH-1)) && data_valid_out_o) begin
+      err_status_o <= 3'b001; // Overflow
+    end
+    else if (rd_fill_level == '0 && data_valid_out_o) begin
+      err_status_o <= 3'b010; // Underflow
+    end else begin
+      err_status_o <= 3'b000; // OK
+    end
+  end
+
+
+
+  // Pulse synchronizer
+  // 1 strech the pulse in the source domain
+  always_ff @(posedge cdr_clk_i or negedge sys_arst_n_i) begin
+      if (!sys_arst_n_i) begin
+          drop_evt_tgl_level <= 1'b0;
+      end else if (drop_evt_tgl_cdr)
+          drop_evt_tgl_level <= !drop_evt_tgl_level;
+      else if (!drop_evt_tgl_cdr) begin
+          drop_evt_tgl_level <= drop_evt_tgl_level;
+      end
+  end
 
   // Drop counter + drop event pulse (sys_clk domain)
   always_ff @(posedge sys_clk_i or negedge sys_arst_n_i) begin
@@ -269,11 +295,14 @@ module elastic_buffer #(
       drop_evt_tgl_sys_dd   <= 1'b0;
       stat_cnt_drop_o       <= 16'd0;
       skp_drop_evt_pulse_o  <= 1'b0;
-    end else begin
-      drop_evt_tgl_sys_d    <= drop_evt_tgl_cdr;
+    end
+    else begin
+      drop_evt_tgl_sys_d    <= drop_evt_tgl_level;  // 2 synchronize the toggle signal to sys_clk domain
       drop_evt_tgl_sys_dd   <= drop_evt_tgl_sys_d;
-      skp_drop_evt_pulse_o  <= (drop_evt_tgl_sys_d ^ drop_evt_tgl_sys_dd);
-      if (drop_evt_tgl_sys_d ^ drop_evt_tgl_sys_dd) begin
+      drop_evt_tgl_sys_ddd  <= drop_evt_tgl_sys_dd;
+    
+      skp_drop_evt_pulse_o  <= (drop_evt_tgl_sys_ddd ^ drop_evt_tgl_sys_dd);    // Regenerate pulse in sys_clk domain when toggle is detected
+      if (drop_evt_tgl_sys_ddd ^ drop_evt_tgl_sys_dd) begin
         stat_cnt_drop_o <= stat_cnt_drop_o + 16'd1;
       end
     end
