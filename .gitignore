@@ -10,3 +10,5 @@ verf/*/.simvision/
 verf/eb_env/cov_work/
 verf/eb_env/cov_work/
 verf/eb_env/cov_work/
+sim/vivado_zybo_z7_10/
+scripts/vivado_zybo_z7_10_project.tcl
