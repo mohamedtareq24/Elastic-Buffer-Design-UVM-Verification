@@ -1,0 +1,52 @@
+ ** -- Register/Field configuration -- **
+
+
+r EB__cfgEB_1 1
+cor_max 6 0 RW 0 0 1 1 1
+
+r EB__cfgEB_2 1
+cor_min 6 0 RW 0 0 1 1 1
+
+r EB__cfgEB_3 1
+cor_seq1 20 0 RW 0 0 1 1 1
+
+r EB__cfgEB_4 1
+cor_seq2 20 0 RW 0 0 1 1 1
+
+r EB__cfgEB_5 1
+enable 1 0 RW 0 0 1 1 1
+
+r EB__cfgEB_6 1
+err_status 3 0 RO 0 0 1 1 1
+
+r EB__cfgEB_7 1
+fill_level 6 0 RO 0 0 1 1 1
+
+r EB__cfgEB_8 1
+skp_add_cnt 16 0 RO 0 0 1 1 1
+
+r EB__cfgEB_9 2
+skp_drop_evt 1 0 RO 0 0 1 1 1
+skp_add_evt 1 1 RO 0 0 1 1 1
+
+r EB__cfgEB_10 1
+skp_rm_cnt 16 0 RO 0 0 1 1 1
+
+
+ ** --  RegFiles configuration -- **
+
+
+ ** --  Blocks configuration -- **
+
+b elastic_buffer_apb_regs.apb_map_eb_regs 10 0 0 2684354560 1 1 1
+T_EB_COR_CFG_MAX_15 EB__cfgEB_1 EB_COR_CFG_MAX 4 4 RW 0 1 8
+T_EB_COR_CFG_MIN_16 EB__cfgEB_2 EB_COR_CFG_MIN 8 4 RW 0 1 8
+T_EB_COR_SEQ1_17 EB__cfgEB_3 EB_COR_SEQ1 12 4 RW 0 1 8
+T_EB_COR_SEQ2_18 EB__cfgEB_4 EB_COR_SEQ2 16 4 RW 0 1 8
+T_EB_CTRL_14 EB__cfgEB_5 EB_CTRL 0 4 RW 0 1 8
+T_EB_ERR_STATUS_23 EB__cfgEB_6 EB_ERR_STATUS 36 4 RO 0 1 8
+T_EB_FILL_LEVEL_19 EB__cfgEB_7 EB_FILL_LEVEL 20 4 RO 0 1 8
+T_EB_SKP_ADD_CNT_20 EB__cfgEB_8 EB_SKP_ADD_CNT 24 4 RO 0 1 8
+T_EB_SKP_EVENT_22 EB__cfgEB_9 EB_SKP_EVENT 32 4 RO 0 1 8
+T_EB_SKP_RM_CNT_21 EB__cfgEB_10 EB_SKP_RM_CNT 28 4 RO 0 1 8
+
