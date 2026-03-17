@@ -2,7 +2,6 @@
 
 ## Design Summary
 The Elastic Buffer (EB) is a rate-matching FIFO designed for high-speed serial interfaces. It compensates for frequency offsets ($\pm$ ppm drift and Spread Spectrum Clocking) between the Recovered Clock Domain (Write Side) and the Local System Clock Domain (Read Side).The design ensures continuous data flow by dynamically inserting or deleting "Skip Markers" (padding symbols) based on buffer occupancy, preventing data loss (overflow) or data corruption (underflow) without interrupting the data stream.
-
 ---
 
 
