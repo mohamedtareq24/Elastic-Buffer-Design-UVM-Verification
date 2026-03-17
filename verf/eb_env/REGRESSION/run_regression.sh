@@ -48,6 +48,7 @@ FILELIST="${PARENT_DIR}/filelist.f"
 SEED=1
 PARALLEL=0
 MAX_PARALLEL_JOBS=5
+CLEAN_LOG_FILE=""
 
 # Color codes for output
 RED='\033[0;31m'
@@ -69,6 +70,18 @@ declare -a TESTS=(
 # ============================================================================
 # Functions
 # ============================================================================
+
+# Enable clean (ANSI-free) logging for direct terminal runs.
+# Keeps colored terminal output while writing a plain-text log.
+setup_clean_logging() {
+    if [ -t 1 ]; then
+        local timestamp
+        timestamp="$(date +"%Y%m%d_%H%M%S")"
+        CLEAN_LOG_FILE="${SCRIPT_DIR}/regression_output_${timestamp}_clean.log"
+        exec > >(tee >(sed -r 's/\x1B\[[0-9;]*[[:alpha:]]//g' > "$CLEAN_LOG_FILE")) 2>&1
+        echo "Clean log: ${CLEAN_LOG_FILE}"
+    fi
+}
 
 # Print header with formatting
 print_header() {
@@ -127,7 +140,7 @@ check_test_passed() {
     fi
     
     # Alternative check: if xrun completed without critical errors
-    if grep -qE "Unmatched|Fatal|Error|failed" "$log_file" | grep -iv "warning"; then
+    if grep -Eiv "warning" "$log_file" | grep -qE "Unmatched|Fatal|Error|failed"; then
         return 1
     fi
     
@@ -154,9 +167,12 @@ run_test() {
     local xrun_opts="-64bit -sv -uvm -access +rwc +UVM_TESTNAME=${test_name} +UVM_VERBOSITY=UVM_MEDIUM -svseed ${seed} -coverage all -covoverwrite -covworkdir ${HOME}/temp -covtest ${test_name}"
     local xrun_lib_opts="-xmlibdirname ${run_dir}/xcelium.d"
     
-    # Run compilation, elaboration, and simulation
-    if ${XRUN} -f "$FILELIST" -top "$TOP" $xrun_lib_opts $xrun_opts -l "$log_elab" -elaborate > /dev/null 2>&1 && \
-       ${XRUN} $xrun_lib_opts $xrun_opts -l "$log_run" -R > /dev/null 2>&1; then
+    # Run compilation/elaboration/simulation from PARENT_DIR so filelist relative paths resolve.
+    if (
+        cd "$PARENT_DIR" &&
+        ${XRUN} -f "$FILELIST" -top "$TOP" $xrun_lib_opts $xrun_opts -l "$log_elab" -elaborate > /dev/null 2>&1 &&
+        ${XRUN} $xrun_lib_opts $xrun_opts -l "$log_run" -R > /dev/null 2>&1
+    ); then
         
         # Check the log for actual success
         if check_test_passed "$log_run" "$test_name"; then
@@ -350,6 +366,8 @@ parse_arguments() {
 
 main() {
     parse_arguments "$@"
+
+    setup_clean_logging
     
     print_header
     
@@ -377,6 +395,10 @@ main() {
     
     # Merge coverage data from all tests
     merge_coverage
+
+    if [ -n "$CLEAN_LOG_FILE" ]; then
+        echo "Clean regression log saved to: ${CLEAN_LOG_FILE}"
+    fi
     
     # Exit with appropriate code
     if [ "$return_failed" -gt 0 ]; then

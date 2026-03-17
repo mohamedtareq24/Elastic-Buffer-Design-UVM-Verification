@@ -24,17 +24,20 @@ cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
 # Create timestamp
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 OUTPUT_LOG="regression_output_${TIMESTAMP}.log"
+OUTPUT_LOG_CLEAN="regression_output_${TIMESTAMP}_clean.log"
 SUMMARY_LOG="regression_summary.log"
 
 echo "================================================================================"
 echo "EB Regression Suite - Remote Execution"
 echo "Start Time: $(date)"
-echo "Log File: $OUTPUT_LOG"
+echo "Color Log File: $OUTPUT_LOG"
+echo "Clean Log File: $OUTPUT_LOG_CLEAN"
 echo "================================================================================"
 echo ""
 
 # Run regression and capture output
-./run_regression.sh "$@" 2>&1 | tee "$OUTPUT_LOG"
+# Keep ANSI colors in terminal and color log, while producing a clean text log.
+./run_regression.sh "$@" 2>&1 | tee "$OUTPUT_LOG" >(sed -r 's/\x1B\[[0-9;]*[[:alpha:]]//g' > "$OUTPUT_LOG_CLEAN")
 EXIT_CODE=$?
 
 # Create a summary file with timestamp
@@ -44,13 +47,14 @@ EXIT_CODE=$?
     echo "Run Time: $(date)"
     echo "================================================================================"
     echo ""
-    tail -n 20 "$OUTPUT_LOG"
+    tail -n 20 "$OUTPUT_LOG_CLEAN"
 } > "${SUMMARY_LOG}"
 
 echo ""
 echo "================================================================================"
 echo "Summary saved to: $SUMMARY_LOG"
-echo "Full log saved to: $OUTPUT_LOG"
+echo "Color log saved to: $OUTPUT_LOG"
+echo "Clean log saved to: $OUTPUT_LOG_CLEAN"
 echo "Log directory: $(pwd)/sim/"
 echo "================================================================================"
 
