@@ -77,7 +77,7 @@ setup_clean_logging() {
     if [ -t 1 ]; then
         local timestamp
         timestamp="$(date +"%Y%m%d_%H%M%S")"
-        CLEAN_LOG_FILE="${SCRIPT_DIR}/regression_output_${timestamp}_clean.log"
+        CLEAN_LOG_FILE="${SCRIPT_DIR}/regression_output_clean.log"
         exec > >(tee >(sed -r 's/\x1B\[[0-9;]*[[:alpha:]]//g' > "$CLEAN_LOG_FILE")) 2>&1
         echo "Clean log: ${CLEAN_LOG_FILE}"
     fi
@@ -336,6 +336,37 @@ merge_coverage() {
     echo ""
 }
 
+# Copy generated UCM metadata into the persistent merged coverage location.
+copy_ucm_to_all_scope() {
+    print_section "UCM COPY"
+
+    local src_scope_dir="${PARENT_DIR}/cov_work/temp/scope"
+    local dst_scope_all_dir="${PARENT_DIR}/cov_work/cov_work/scope/all"
+    local copied=0
+
+    if [ ! -d "$src_scope_dir" ]; then
+        echo -e "${YELLOW}⚠  Source scope directory not found: ${src_scope_dir}${NC}"
+        return 1
+    fi
+
+    mkdir -p "$dst_scope_all_dir"
+
+    shopt -s nullglob
+    for ucm_file in "$src_scope_dir"/*.ucm; do
+        cp -f "$ucm_file" "$dst_scope_all_dir/"
+        ((copied++))
+    done
+    shopt -u nullglob
+
+    if [ "$copied" -eq 0 ]; then
+        echo -e "${YELLOW}⚠  No .ucm files found in ${src_scope_dir}${NC}"
+        return 1
+    fi
+
+    echo -e "${GREEN}✓${NC} Copied ${copied} .ucm file(s) to ${CYAN}${dst_scope_all_dir}${NC}"
+    echo ""
+}
+
 # Parse command line arguments
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
@@ -395,6 +426,9 @@ main() {
     
     # Merge coverage data from all tests
     merge_coverage
+
+    # Persist UCM metadata into cov_work/cov_work/scope/all after each run.
+    copy_ucm_to_all_scope
 
     if [ -n "$CLEAN_LOG_FILE" ]; then
         echo "Clean regression log saved to: ${CLEAN_LOG_FILE}"
