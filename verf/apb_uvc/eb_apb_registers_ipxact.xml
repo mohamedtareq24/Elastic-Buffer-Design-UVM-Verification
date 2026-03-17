@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipxact:component
+    xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014"
+  xmlns:cadence="http://www.cadence.com/SPIRIT/1685-2014/vendorExtensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.accellera.org/XMLSchema/IPXACT/1685-2014 http://www.accellera.org/XMLSchema/IPXACT/1685-2014/index.xsd">
+
+  <ipxact:vendor>mohamed_tarek</ipxact:vendor>
+  <ipxact:library>flat</ipxact:library>
+  <ipxact:name>elastic_buffer_apb_regs</ipxact:name>
+  <ipxact:version>1.0</ipxact:version>
+
+  <ipxact:memoryMaps>
+    <ipxact:memoryMap>
+      <ipxact:name>apb_map</ipxact:name>
+      <ipxact:description>APB register map for elastic buffer wrapper</ipxact:description>
+
+      <ipxact:addressBlock>
+        <ipxact:name>eb_regs</ipxact:name>
+        <ipxact:baseAddress>'hA0000000</ipxact:baseAddress>
+        <ipxact:range>'h28</ipxact:range>
+        <ipxact:width>32</ipxact:width>
+        <ipxact:usage>register</ipxact:usage>
+
+        <ipxact:register>
+          <ipxact:name>EB_CTRL</ipxact:name>
+          <ipxact:description>Elastic buffer control register</ipxact:description>
+          <ipxact:addressOffset>'h00</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-write</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>enable</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>1'b0</ipxact:value>
+                <ipxact:mask>1'b1</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>1</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="reg_eb_ctrl[0]"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:vendorExtensions>
+            <cadence:extensions>
+              <cadence:hdlAccess cadence:path="reg_eb_ctrl"/>
+            </cadence:extensions>
+          </ipxact:vendorExtensions>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_COR_CFG_MAX</ipxact:name>
+          <ipxact:description>Threshold for SKP drops</ipxact:description>
+          <ipxact:addressOffset>'h04</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-write</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>cor_max</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>6'h00</ipxact:value>
+                <ipxact:mask>6'h3F</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>6</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="reg_eb_cor_cfg_max[5:0]"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:vendorExtensions>
+            <cadence:extensions>
+              <cadence:hdlAccess cadence:path="reg_eb_cor_cfg_max"/>
+            </cadence:extensions>
+          </ipxact:vendorExtensions>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_COR_CFG_MIN</ipxact:name>
+          <ipxact:description>Threshold for SKP insertions</ipxact:description>
+          <ipxact:addressOffset>'h08</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-write</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>cor_min</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>6'h00</ipxact:value>
+                <ipxact:mask>6'h3F</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>6</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="reg_eb_cor_cfg_min[5:0]"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:vendorExtensions>
+            <cadence:extensions>
+              <cadence:hdlAccess cadence:path="reg_eb_cor_cfg_min"/>
+            </cadence:extensions>
+          </ipxact:vendorExtensions>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_COR_SEQ1</ipxact:name>
+          <ipxact:description>SKP sequence value 1</ipxact:description>
+          <ipxact:addressOffset>'h0C</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-write</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>cor_seq1</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>20'h00000</ipxact:value>
+                <ipxact:mask>20'hFFFFF</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>20</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="reg_eb_cor_seq1[19:0]"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:vendorExtensions>
+            <cadence:extensions>
+              <cadence:hdlAccess cadence:path="reg_eb_cor_seq1"/>
+            </cadence:extensions>
+          </ipxact:vendorExtensions>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_COR_SEQ2</ipxact:name>
+          <ipxact:description>SKP sequence value 2</ipxact:description>
+          <ipxact:addressOffset>'h10</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-write</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>cor_seq2</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>20'h00000</ipxact:value>
+                <ipxact:mask>20'hFFFFF</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>20</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="reg_eb_cor_seq2[19:0]"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:vendorExtensions>
+            <cadence:extensions>
+              <cadence:hdlAccess cadence:path="reg_eb_cor_seq2"/>
+            </cadence:extensions>
+          </ipxact:vendorExtensions>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_FILL_LEVEL</ipxact:name>
+          <ipxact:description>Current elastic buffer fill level</ipxact:description>
+          <ipxact:addressOffset>'h14</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-only</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>fill_level</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>6'h00</ipxact:value>
+                <ipxact:mask>6'h3F</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>6</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="stat_fill_level_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_SKP_ADD_CNT</ipxact:name>
+          <ipxact:description>SKP add event count</ipxact:description>
+          <ipxact:addressOffset>'h18</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-only</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>skp_add_cnt</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>16'h0000</ipxact:value>
+                <ipxact:mask>16'hFFFF</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>16</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="stat_cnt_add_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_SKP_RM_CNT</ipxact:name>
+          <ipxact:description>SKP remove event count</ipxact:description>
+          <ipxact:addressOffset>'h1C</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-only</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>skp_rm_cnt</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>16'h0000</ipxact:value>
+                <ipxact:mask>16'hFFFF</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>16</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="stat_cnt_drop_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_SKP_EVENT</ipxact:name>
+          <ipxact:description>Pulse status for SKP events</ipxact:description>
+          <ipxact:addressOffset>'h20</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-only</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>skp_drop_evt</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>1'b0</ipxact:value>
+                <ipxact:mask>1'b1</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>1</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="skp_drop_evt_pulse_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+          <ipxact:field>
+            <ipxact:name>skp_add_evt</ipxact:name>
+            <ipxact:bitOffset>1</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>1'b0</ipxact:value>
+                <ipxact:mask>1'b1</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>1</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="skp_add_evt_pulse_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+        </ipxact:register>
+
+        <ipxact:register>
+          <ipxact:name>EB_ERR_STATUS</ipxact:name>
+          <ipxact:description>Error status flags from elastic buffer</ipxact:description>
+          <ipxact:addressOffset>'h24</ipxact:addressOffset>
+          <ipxact:size>32</ipxact:size>
+          <ipxact:access>read-only</ipxact:access>
+          <ipxact:field>
+            <ipxact:name>err_status</ipxact:name>
+            <ipxact:bitOffset>0</ipxact:bitOffset>
+            <ipxact:resets>
+              <ipxact:reset>
+                <ipxact:value>3'h0</ipxact:value>
+                <ipxact:mask>3'h7</ipxact:mask>
+              </ipxact:reset>
+            </ipxact:resets>
+            <ipxact:bitWidth>3</ipxact:bitWidth>
+            <ipxact:vendorExtensions>
+              <cadence:extensions>
+                <cadence:hdlAccess cadence:path="err_status_i"/>
+              </cadence:extensions>
+            </ipxact:vendorExtensions>
+          </ipxact:field>
+        </ipxact:register>
+      </ipxact:addressBlock>
+
+      <ipxact:addressUnitBits>8</ipxact:addressUnitBits>
+    </ipxact:memoryMap>
+  </ipxact:memoryMaps>
+
+  <ipxact:description>IP-XACT template for APB wrapper register model of elastic buffer</ipxact:description>
+</ipxact:component>
