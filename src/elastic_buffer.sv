@@ -116,8 +116,8 @@ module elastic_buffer #(
   logic drop_evt_tgl_sys_d, drop_evt_tgl_sys_dd, drop_evt_tgl_sys_ddd;
 
   
-  assign wr_ptr_gray = bin2gray(wr_ptr_bin);
-  assign rd_ptr_gray = bin2gray(rd_ptr_bin); 
+  // assign wr_ptr_gray = bin2gray(wr_ptr_bin);
+  // assign rd_ptr_gray = bin2gray(rd_ptr_bin); 
   // Fill level calculations
   assign wr_fill_level = wr_ptr_bin_dd - rd_ptr_in_cdr;
   assign rd_fill_level_comb = wr_ptr_in_sys - rd_ptr_bin;
@@ -151,6 +151,13 @@ module elastic_buffer #(
     else begin
       wr_en <= 1'b0;
     end
+  end
+  // Registered Gray pointers
+  always_ff @(posedge cdr_clk_i or negedge sys_arst_n_i) begin
+    if (!sys_arst_n_i)
+      wr_ptr_gray <= '0;
+    else
+      wr_ptr_gray <= bin2gray(wr_en ? (wr_ptr_bin + 1'b1) : wr_ptr_bin);
   end
 
   // Memory write port (CDR clock domain)
@@ -187,6 +194,13 @@ module elastic_buffer #(
   // =========================================================================
   // CDC: Read pointer -> Write domain (sys -> cdr)
   // =========================================================================
+  always_ff @(posedge sys_clk_i or negedge sys_arst_n_i) begin
+    if (!sys_arst_n_i)
+      rd_ptr_gray <= '0;
+    else
+      rd_ptr_gray <= bin2gray(rd_en ? (rd_ptr_bin + 1'b1) : rd_ptr_bin);
+  end
+
   always_ff @(posedge cdr_clk_i or negedge sys_arst_n_i) begin
     if (!sys_arst_n_i) begin
       rd_ptr_gray_d  <= '0;
