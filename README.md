@@ -3,7 +3,7 @@
 ## Project Title and Objective
 Design and Verification of an Elastic Buffer
 
-This repository implements a SystemVerilog elastic buffer for rate matching between independent clock domains, with support for APB-based configuration and SKP symbol insert/drop control relevant to **USB 3.0 Gen1** style data paths. The project includes both synthesizable RTL and a UVM verification environment used to validat buffering correctness, register programmability, and protocol-oriented traffic scenarios.
+This repository implements a SystemVerilog elastic buffer for rate matching between independent clock domains, with support for APB-based configuration and SKP symbol insert/drop control relevant to **USB 3.0 Gen1** style data paths. The project includes both synthesizable RTL and a UVM verification environment used to validate buffering correctness, register programmability, and protocol-oriented traffic scenarios.
 
 ## Architecture and Block Diagrams
 The Elastic Buffer consists of the following components:
@@ -31,7 +31,7 @@ The Elastic Buffer consists of the following components:
 │   └── USB_3_GEN1_case.md  # USB 3.0 Gen1 use case documentation
 ├── scripts/      # TCL scripts and automation tools
 ├── docs/         # Documentation and diagrams
-└── sim/          # Simulation files and results
+└── syn/          # Synthesis project files and reports
 ```
 
 ### Verification Environment (verf/) Overview
@@ -53,7 +53,7 @@ Manages APB (Advanced Peripheral Bus) configuration and control transactions.
 
 #### **Write Stream UVC** (`wr_uvc/`)
 Injects write data into the Elastic Buffer input interface.
-- **Key Features**: Constrained-random and directed write sequence generation with configurble SKP injection & starving sequences
+- **Key Features**: Constrained-random and directed write sequence generation with configurable SKP injection and starving sequences
 
 #### **Read Stream UVC** (`rd_uvc/`)
 Monitors read data from the Elastic Buffer output interface.
@@ -71,25 +71,47 @@ Automated testing and result aggregation framework:
 - **Features**: Automatic test failure reporting, coverage merging, and result summary generation
 
 ## Tools Used
-- **Simulation Tools**: Cadence xceilum, imc & regverifier 
+- **Simulation Tools**: Cadence Xcelium, IMC, and RegVerifier
 - **Synthesis Tools**: Vivado 2023.1
 
 ## How to Run
+From the repository root, use the top-level Makefile as the single entrypoint.
+
 ### Simulation
-1. Navigate to the `verf/eb_env/` directory.
-2. Run the following command to execute the testbench:
+1. Run a single UVM test:
    ```bash
-   make sim
+   make sim TEST=eb_usb_test SEED=1
    ```
+2. Open SimVision GUI for a test run:
+   ```bash
+   make gui TEST=eb_usb_test SEED=1
+   ```
+
 #### Regression
-1. Navigate to the `verf/eb_env/REGRESSION/` directory.
-2. source ./run_regression.sh
+1. Run full regression (delegates to `verf/eb_env/REGRESSION/Makefile`):
+   ```bash
+   make regression SEED=1
+   ```
+2. Run regression and automatically load merged coverage in IMC:
+   ```bash
+   make regression_gui SEED=1
+   ```
+3. Load the merged coverage database separately:
+   ```bash
+   make imc_load
+   ```
 
 ### Synthesis
-1. Open Vivado and source the provided TCL script:
-   ```tcl
-   source scripts/vivado_zybo_z7_10_project.tcl
+1. Run Zybo Z7-10 project synthesis from command line:
+   ```bash
+   make synth SYNTH_TOP=eb_top
    ```
+   Outputs are written to `syn/vivado_zybo_z7_10/`.
+2. Run quick RTL synthesis check (out-of-context):
+   ```bash
+   make vivado_check CHECK_TOP=elastic_buffer FPGA_PART=xc7z010clg400-1
+   ```
+   Reports are written to `syn/vivado_utilization.rpt` and `syn/vivado_timing.rpt`.
 
 ## Verification Strategy and Results
 
@@ -102,7 +124,6 @@ The verification environment employs a **UVM-based (Universal Verification Metho
 
 ### Running Verification
 ```bash
-cd verf/eb_env
-make sim TEST=eb_usb_test
+make sim TEST=eb_usb_test SEED=1
 ```
-Results and waveforms are available in `verf/eb_env/sim/` and coverage reports in `cov_work/`.
+Results and waveforms are available in `verf/eb_env/sim/` and coverage reports in `verf/eb_env/cov_work/`.
