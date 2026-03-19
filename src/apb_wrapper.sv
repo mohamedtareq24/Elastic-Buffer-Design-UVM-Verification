@@ -61,7 +61,12 @@ module apb_wrapper #(parameter DATA_WIDTH = 32 , ADDR_WIDTH = 32 , BASE_ADDR = 3
     logic [DATA_WIDTH-1:0] reg_eb_skp_event;
     logic [DATA_WIDTH-1:0] reg_eb_err_status;
 
-    // No internal status signals needed - they come from ports
+    logic [5:0]            stat_fill_level_q;
+    logic [15:0]           stat_cnt_add_q;
+    logic [15:0]           stat_cnt_drop_q;
+    logic                  skp_add_evt_pulse_q;
+    logic                  skp_drop_evt_pulse_q;
+    logic [2:0]            err_status_q;
 
     logic [ADDR_WIDTH-1:0] addr_offs;
     logic [7:0]            addr_word;
@@ -88,31 +93,47 @@ module apb_wrapper #(parameter DATA_WIDTH = 32 , ADDR_WIDTH = 32 , BASE_ADDR = 3
             reg_eb_cor_seq2     <= '0;
             reg_eb_skp_event    <= '0;
             reg_eb_err_status   <= '0;
+            stat_fill_level_q   <= '0;
+            stat_cnt_add_q      <= '0;
+            stat_cnt_drop_q     <= '0;
+            skp_add_evt_pulse_q <= 1'b0;
+            skp_drop_evt_pulse_q<= 1'b0;
+            err_status_q        <= '0;
         end 
-        else if (psel_i && penable_i && !pwrite_i) begin
-            case (addr_word)
-                REG_EB_CTRL:        prdata_o <= reg_eb_ctrl;
-                REG_EB_COR_CFG_MAX: prdata_o <= reg_eb_cor_cfg_max;
-                REG_EB_COR_CFG_MIN: prdata_o <= reg_eb_cor_cfg_min;
-                REG_EB_COR_SEQ1:    prdata_o <= reg_eb_cor_seq1;
-                REG_EB_COR_SEQ2:    prdata_o <= reg_eb_cor_seq2;
-                REG_EB_FILL_LEVEL:  prdata_o <= {{(DATA_WIDTH-6){1'b0}}, stat_fill_level_i};
-                REG_EB_SKP_ADD_CNT: prdata_o <= {{(DATA_WIDTH-16){1'b0}}, stat_cnt_add_i};
-                REG_EB_SKP_RM_CNT:  prdata_o <= {{(DATA_WIDTH-16){1'b0}}, stat_cnt_drop_i};
-                REG_EB_SKP_EVENT:   prdata_o <= {{(DATA_WIDTH-2){1'b0}}, skp_add_evt_pulse_i, skp_drop_evt_pulse_i};
-                REG_EB_ERR_STATUS:  prdata_o <= {{(DATA_WIDTH-3){1'b0}}, err_status_i};
-                default:            prdata_o <= '0;
-            endcase
-        end
-        else if (psel_i && penable_i && pwrite_i) begin
-            case (addr_word)
-                REG_EB_CTRL:     reg_eb_ctrl     <= pwdata_i;
-                REG_EB_COR_CFG_MAX: reg_eb_cor_cfg_max <= pwdata_i;
-                REG_EB_COR_CFG_MIN: reg_eb_cor_cfg_min <= pwdata_i;
-                REG_EB_COR_SEQ1: reg_eb_cor_seq1 <= pwdata_i;
-                REG_EB_COR_SEQ2: reg_eb_cor_seq2 <= pwdata_i;
-                default: /* no-op */;
-            endcase
+        else begin
+            // Sample status inputs once per APB clock.
+            stat_fill_level_q    <= stat_fill_level_i;
+            stat_cnt_add_q       <= stat_cnt_add_i;
+            stat_cnt_drop_q      <= stat_cnt_drop_i;
+            skp_add_evt_pulse_q  <= skp_add_evt_pulse_i;
+            skp_drop_evt_pulse_q <= skp_drop_evt_pulse_i;
+            err_status_q         <= err_status_i;
+
+            if (psel_i && penable_i && !pwrite_i) begin
+                case (addr_word)
+                    REG_EB_CTRL:        prdata_o <= reg_eb_ctrl;
+                    REG_EB_COR_CFG_MAX: prdata_o <= reg_eb_cor_cfg_max;
+                    REG_EB_COR_CFG_MIN: prdata_o <= reg_eb_cor_cfg_min;
+                    REG_EB_COR_SEQ1:    prdata_o <= reg_eb_cor_seq1;
+                    REG_EB_COR_SEQ2:    prdata_o <= reg_eb_cor_seq2;
+                    REG_EB_FILL_LEVEL:  prdata_o <= {{(DATA_WIDTH-6){1'b0}}, stat_fill_level_q};
+                    REG_EB_SKP_ADD_CNT: prdata_o <= {{(DATA_WIDTH-16){1'b0}}, stat_cnt_add_q};
+                    REG_EB_SKP_RM_CNT:  prdata_o <= {{(DATA_WIDTH-16){1'b0}}, stat_cnt_drop_q};
+                    REG_EB_SKP_EVENT:   prdata_o <= {{(DATA_WIDTH-2){1'b0}}, skp_add_evt_pulse_q, skp_drop_evt_pulse_q};
+                    REG_EB_ERR_STATUS:  prdata_o <= {{(DATA_WIDTH-3){1'b0}}, err_status_q};
+                    default:            prdata_o <= '0;
+                endcase
+            end
+            else if (psel_i && penable_i && pwrite_i) begin
+                case (addr_word)
+                    REG_EB_CTRL:     reg_eb_ctrl     <= pwdata_i;
+                    REG_EB_COR_CFG_MAX: reg_eb_cor_cfg_max <= pwdata_i;
+                    REG_EB_COR_CFG_MIN: reg_eb_cor_cfg_min <= pwdata_i;
+                    REG_EB_COR_SEQ1: reg_eb_cor_seq1 <= pwdata_i;
+                    REG_EB_COR_SEQ2: reg_eb_cor_seq2 <= pwdata_i;
+                    default: /* no-op */;
+                endcase
+            end
         end
     end
 
