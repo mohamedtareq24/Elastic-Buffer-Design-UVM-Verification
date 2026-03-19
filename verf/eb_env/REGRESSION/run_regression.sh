@@ -125,26 +125,27 @@ print_test_fail() {
 check_test_passed() {
     local log_file="$1"
     local test_name="$2"
-    
+
     if [ ! -f "$log_file" ]; then
         return 1
     fi
-    
-    # Check for UVM TEST PASSED message (standard UVM success indicator)
-    if grep -q "UVM_\(TEST\|ERROR\).*PASSED" "$log_file" || grep -q "Simulation finished successfully" "$log_file"; then
-        # Make sure there are no UVM_FATAL/UVM_ERROR messages
-        if grep -q "^.*UVM_\(FATAL\|ERROR\)" "$log_file"; then
-            return 1
-        fi
-        return 0
-    fi
-    
-    # Alternative check: if xrun completed without critical errors
-    if grep -Eiv "warning" "$log_file" | grep -qE "Unmatched|Fatal|Error|failed"; then
+
+    # Fail if UVM reported any non-zero error or fatal counts.
+    # UVM always prints "UVM_ERROR :    0" for passing tests, so match only
+    # counts where the number is 1 or greater.
+    if grep -qE "UVM_(FATAL|ERROR)[[:space:]]*:[[:space:]]*[1-9][0-9]*" "$log_file"; then
         return 1
     fi
-    
-    return 0
+
+    # Require evidence that simulation actually ran to completion.
+    # Cadence Xcelium logs "Simulation complete via $finish" at the end of a
+    # normal run; the UVM Report Summary appears just before that.
+    if grep -qE "Simulation complete via \\\$finish|--- UVM Report Summary ---|Simulation finished successfully" "$log_file"; then
+        return 0
+    fi
+
+    # No completion marker found — treat as failure.
+    return 1
 }
 
 # Run a single test
