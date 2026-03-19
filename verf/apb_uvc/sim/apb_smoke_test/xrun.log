@@ -1,0 +1,154 @@
+xrun(64): 20.09-s009: (c) Copyright 1995-2021 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	20.09-s009: Started on Mar 13, 2020 at 04:42:21 +03
+xrun
+	-f ./tb/run.f
+		-timescale 1ps/1fs
+		+incdir+./
+		+incdir+./tb
+		+incdir+../if
+		+incdir+../../src
+		../if/apb_if.sv
+		../../src/apb_wrapper.sv
+		./apb_pkg.sv
+		./tb/apb_tb_top.sv
+	-top apb_wrapper_tb_top
+	-xmlibdirname sim/apb_smoke_test/xcelium.d
+	-64bit
+	-sv
+	-uvm
+	-access +rwc
+	+UVM_TESTNAME=apb_smoke_test
+	+UVM_VERBOSITY=UVM_MEDIUM
+	-svseed 1
+	-coverage U
+	-covoverwrite
+	-covworkdir /home/icer/temp
+	-covtest apb_smoke_test
+	-l sim/apb_smoke_test/xrun.log
+
+   User defined plus("+") options:
+	+UVM_VERBOSITY=UVM_MEDIUM
+
+Loading snapshot worklib.apb_wrapper_tb_top:sv .................... Done
+SVSEED set from command line: 1
+xmsim: *W,RNDXCELON: A newer version of the SystemVerilog constraint solver is being used which has better support for array-solving, new solve-order mechanism, and seed stability enhancements..
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+xcelium> source /opt/rh/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> source /opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/additions/sv/files/tcl/uvm_sim.tcl
+xcelium> run
+----------------------------------------------------------------
+CDNS-UVM-1.1d (20.09-s009)
+(C) 2007-2013 Mentor Graphics Corporation
+(C) 2007-2013 Cadence Design Systems, Inc.
+(C) 2006-2013 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test apb_smoke_test...
+UVM_INFO apb_env.sv(21) @ 0: uvm_test_top.env [APB_WRAPPER_ENV] Build phase complete
+UVM_INFO apb_env.sv(30) @ 0: uvm_test_top.env [APB_WRAPPER_ENV] Connect phase complete
+UVM_INFO apb_env.sv(35) @ 0: uvm_test_top.env [APB_WRAPPER_ENV] Environment topology:
+------------------------------------------------------------
+Name                     Type                    Size  Value
+------------------------------------------------------------
+env                      apb_wrapper_env         -     @2721
+  apb_agt                apb_agent               -     @2766
+    driver               apb_driver              -     @2867
+      rsp_port           uvm_analysis_port       -     @2967
+      seq_item_port      uvm_seq_item_pull_port  -     @2916
+    monitor              apb_monitor             -     @3582
+      ap                 uvm_analysis_port       -     @3687
+    sequencer            apb_sequencer           -     @2946
+      rsp_export         uvm_analysis_export     -     @3055
+      seq_item_export    uvm_seq_item_pull_imp   -     @3603
+      arbitration_queue  array                   0     -    
+      lock_queue         array                   0     -    
+      num_last_reqs      integral                32    'd1  
+      num_last_rsps      integral                32    'd1  
+  apb_ap                 uvm_analysis_port       -     @2814
+------------------------------------------------------------
+UVM_INFO tb/apb_test_lib.sv(16) @ 0: uvm_test_top [apb_smoke_test] Printing Test Topology...
+UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+--------------------------------------------------------------
+Name                       Type                    Size  Value
+--------------------------------------------------------------
+uvm_test_top               apb_smoke_test          -     @2660
+  env                      apb_wrapper_env         -     @2721
+    apb_agt                apb_agent               -     @2766
+      driver               apb_driver              -     @2867
+        rsp_port           uvm_analysis_port       -     @2967
+        seq_item_port      uvm_seq_item_pull_port  -     @2916
+      monitor              apb_monitor             -     @3582
+        ap                 uvm_analysis_port       -     @3687
+      sequencer            apb_sequencer           -     @2946
+        rsp_export         uvm_analysis_export     -     @3055
+        seq_item_export    uvm_seq_item_pull_imp   -     @3603
+        arbitration_queue  array                   0     -    
+        lock_queue         array                   0     -    
+        num_last_reqs      integral                32    'd1  
+        num_last_rsps      integral                32    'd1  
+    apb_ap                 uvm_analysis_port       -     @2814
+--------------------------------------------------------------
+
+UVM_INFO tb/apb_seq_lib.sv(64) @ 0: uvm_test_top.env.apb_agt.sequencer@@apb_seq [APB_CFG_SEQ] Configuring APB wrapper registers
+UVM_INFO ./tb/apb_tb_top.sv(74) @ 50000000: reporter [TB_TOP] Reset deasserted
+UVM_INFO apb_driver.sv(23) @ 65000000: uvm_test_top.env.apb_agt.driver [apb_driver] Sent APB Transaction addr=0xa0000004 data=0x00000019 wr_en=1
+UVM_INFO apb_monitor.sv(23) @ 65000000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Monitored APB Transaction addr=0xa0000004 data=0x00000019 wr_en=1
+UVM_INFO apb_driver.sv(23) @ 95000000: uvm_test_top.env.apb_agt.driver [apb_driver] Sent APB Transaction addr=0xa0000008 data=0x00000008 wr_en=1
+UVM_INFO apb_monitor.sv(23) @ 95000000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Monitored APB Transaction addr=0xa0000008 data=0x00000008 wr_en=1
+UVM_INFO apb_driver.sv(23) @ 125000000: uvm_test_top.env.apb_agt.driver [apb_driver] Sent APB Transaction addr=0xa000000c data=0x000c978a wr_en=1
+UVM_INFO apb_monitor.sv(23) @ 125000000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Monitored APB Transaction addr=0xa000000c data=0x000c978a wr_en=1
+UVM_INFO apb_driver.sv(23) @ 155000000: uvm_test_top.env.apb_agt.driver [apb_driver] Sent APB Transaction addr=0xa0000010 data=0x00097ceb wr_en=1
+UVM_INFO apb_monitor.sv(23) @ 155000000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Monitored APB Transaction addr=0xa0000010 data=0x00097ceb wr_en=1
+UVM_INFO apb_driver.sv(23) @ 185000000: uvm_test_top.env.apb_agt.driver [apb_driver] Sent APB Transaction addr=0xa0000000 data=0x00000001 wr_en=1
+UVM_INFO apb_monitor.sv(23) @ 185000000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Monitored APB Transaction addr=0xa0000000 data=0x00000001 wr_en=1
+UVM_INFO tb/apb_seq_lib.sv(73) @ 185000000: uvm_test_top.env.apb_agt.sequencer@@apb_seq [APB_CFG_SEQ] Configuration complete
+
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   19
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[APB_CFG_SEQ]     2
+[APB_WRAPPER_ENV]     3
+[RNTST]     1
+[TB_TOP]     1
+[UVMTOP]     1
+[apb_driver]     5
+[apb_monitor]     5
+[apb_smoke_test]     1
+Simulation complete via $finish(1) at time 185 NS + 110
+/opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_root.svh:457     $finish;
+xcelium> exit
+
+coverage setup:
+  workdir  :  /home/icer/temp
+  dutinst  :  apb_wrapper_tb_top(apb_wrapper_tb_top)
+  scope    :  scope
+  testname :  apb_smoke_test
+TOOL:	xrun(64)	20.09-s009: Exiting on Mar 13, 2020 at 04:42:27 +03  (total: 00:00:06)

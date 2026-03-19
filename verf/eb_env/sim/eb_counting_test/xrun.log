@@ -1,0 +1,187 @@
+xrun(64): 20.09-s009: (c) Copyright 1995-2021 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	20.09-s009: Started on Mar 18, 2020 at 23:28:48 +03
+xrun
+	-xmlibdirname /mnt/hgfs/Digital_Electronics/giesh/Elastic-Buffer-Design-UVM-Verification_public/verf/eb_env/sim/eb_counting_test/xcelium.d
+	-64bit
+	-sv
+	-uvm
+	-access +rwc
+	+UVM_TESTNAME=eb_counting_test
+	+UVM_VERBOSITY=UVM_MEDIUM
+	-svseed 1
+	-coverage all
+	-covoverwrite
+	-covworkdir /home/icer/temp
+	-covtest eb_counting_test
+	-l /mnt/hgfs/Digital_Electronics/giesh/Elastic-Buffer-Design-UVM-Verification_public/verf/eb_env/sim/eb_counting_test/xrun.log
+	-R
+
+   User defined plus("+") options:
+	+UVM_VERBOSITY=UVM_MEDIUM
+
+Loading snapshot worklib.eb_tb_top:sv .................... Done
+SVSEED set from command line: 1
+xmsim: *W,RNDXCELON: A newer version of the SystemVerilog constraint solver is being used which has better support for array-solving, new solve-order mechanism, and seed stability enhancements..
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+xcelium> source /opt/rh/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> source /opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/additions/sv/files/tcl/uvm_sim.tcl
+xcelium> run
+----------------------------------------------------------------
+CDNS-UVM-1.1d (20.09-s009)
+(C) 2007-2013 Mentor Graphics Corporation
+(C) 2007-2013 Cadence Design Systems, Inc.
+(C) 2006-2013 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test eb_counting_test...
+UVM_INFO eb_test_lib.sv(35) @ 0: uvm_test_top [eb_counting_test] Printing Test Topology...
+UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+------------------------------------------------------------------
+Name                       Type                        Size  Value
+------------------------------------------------------------------
+uvm_test_top               eb_counting_test            -     @2825
+  env                      eb_env                      -     @2892
+    clk_ag                 clk_agent                   -     @2951
+      agent_ap             uvm_analysis_port           -     @4611
+      coverage_collector   clk_coverage_collector      -     @4512
+        analysis_imp       uvm_analysis_imp            -     @4562
+      driver               clk_driver                  -     @4303
+        rsp_port           uvm_analysis_port           -     @4402
+        seq_item_port      uvm_seq_item_pull_port      -     @4353
+      monitor              clk_monitor                 -     @4382
+        ap                 uvm_analysis_port           -     @4481
+      sequencer            clk_sequencer               -     @3664
+        rsp_export         uvm_analysis_export         -     @3722
+        seq_item_export    uvm_seq_item_pull_imp       -     @4272
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+    coverage_collector     eb_coverage_collector       -     @3578
+      rd_mon_imp           uvm_analysis_imp_rd_mon     -     @4690
+      wr_mon_imp           uvm_analysis_imp_wr_mon     -     @4739
+    rd_ag                  rd_agent                    -     @3011
+      monitor              rd_monitor                  -     @4773
+        ap                 uvm_analysis_port           -     @4822
+    scoreboard             eb_scoreboard               -     @3041
+      rd_fifo              uvm_tlm_analysis_fifo #(T)  -     @3351
+        analysis_export    uvm_analysis_imp            -     @3599
+        get_ap             uvm_analysis_port           -     @3549
+        get_peek_export    uvm_get_peek_imp            -     @3451
+        put_ap             uvm_analysis_port           -     @3500
+        put_export         uvm_put_imp                 -     @3400
+      wr_fifo              uvm_tlm_analysis_fifo #(T)  -     @3040
+        analysis_export    uvm_analysis_imp            -     @3321
+        get_ap             uvm_analysis_port           -     @3271
+        get_peek_export    uvm_get_peek_imp            -     @3173
+        put_ap             uvm_analysis_port           -     @3222
+        put_export         uvm_put_imp                 -     @3122
+    wr_ag                  wr_agent                    -     @2981
+      driver               wr_driver                   -     @5582
+        rsp_port           uvm_analysis_port           -     @5681
+        seq_item_port      uvm_seq_item_pull_port      -     @5632
+      monitor              wr_monitor                  -     @4871
+        ap                 uvm_analysis_port           -     @4920
+      sequencer            wr_sequencer                -     @4900
+        rsp_export         uvm_analysis_export         -     @5007
+        seq_item_export    uvm_seq_item_pull_imp       -     @5551
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+------------------------------------------------------------------
+
+UVM_INFO eb_test_lib.sv(54) @ 0: uvm_test_top [eb_counting_test] Entered reset_phase()
+UVM_INFO eb_test_lib.sv(59) @ 20000: uvm_test_top [eb_counting_test] Starting clock sequence of type: clk_usb_seq
+UVM_INFO ../clk_uvc/clk_driver.sv(36) @ 20000: uvm_test_top.env.clk_ag.driver [CLKDRV] Got :
+---------------------------------------------------------------------------------------------------
+Name                           Type                 Size  Value                                    
+---------------------------------------------------------------------------------------------------
+tr                             usb_clk_transaction  -     @5892                                    
+  sys_clk_period_ps            integral             32    'd3999                                   
+  cdr_clk_period_ps            integral             32    'd4001                                   
+  sys_ssc_ppm                  integral             32    'd4977                                   
+  cdr_ssc_ppm                  integral             32    'd4927                                   
+  sys_ssc_dir                  integral             1     'h1                                      
+  cdr_ssc_dir                  integral             1     'h1                                      
+  ssc_enable                   integral             1     'h1                                      
+  sys_curnt_offset_ps          integral             32    'd4                                      
+  cdr_curnt_offset_ps          integral             32    'd0                                      
+  begin_time                   time                 64    20000                                    
+  depth                        int                  32    'd2                                      
+  parent sequence (name)       string               7     clk_seq                                  
+  parent sequence (full name)  string               41    uvm_test_top.env.clk_ag.sequencer.clk_seq
+  sequencer                    string               33    uvm_test_top.env.clk_ag.sequencer        
+---------------------------------------------------------------------------------------------------
+
+UVM_INFO eb_test_lib.sv(67) @ 20000: uvm_test_top [eb_counting_test] Entered main_phase()
+UVM_INFO eb_test_lib.sv(69) @ 20000: uvm_test_top [eb_counting_test] Starting write sequence of type: wr_counting_seq
+UVM_INFO ../wr_uvc/wr_seq_lib.sv(14) @ 20000: uvm_test_top.env.wr_ag.sequencer@@wr_seq [WRSEQ] Starting wr_counting_seq
+UVM_INFO ../wr_uvc/wr_seq_lib.sv(23) @ 418125: uvm_test_top.env.wr_ag.sequencer@@wr_seq [WRSEQ] Last Transactionin the sequence wr_counting_seq
+UVM_INFO eb_test_lib.sv(41) @ 422127: uvm_test_top [eb_counting_test] Checking for unused configurations...
+UVM_INFO eb_scoreboard.sv(126) @ 422127: uvm_test_top.env.scoreboard [EBSB] Total transactions processed: 88
+UVM_INFO eb_scoreboard.sv(127) @ 422127: uvm_test_top.env.scoreboard [EBSB] Total mismatches detected: 0
+UVM_INFO eb_scoreboard.sv(128) @ 422127: uvm_test_top.env.scoreboard [EBSB] Total matches detected: 88
+UVM_INFO eb_scoreboard.sv(129) @ 422127: uvm_test_top.env.scoreboard [EBSB] Total SKPs seen on write side: 0
+UVM_INFO eb_scoreboard.sv(130) @ 422127: uvm_test_top.env.scoreboard [EBSB] Total SKPs seen on read side: 0
+UVM_INFO eb_scoreboard.sv(131) @ 422127: uvm_test_top.env.scoreboard [EBSB] Percentage of SKPs in the stream : 0.00%
+UVM_INFO eb_scoreboard.sv(132) @ 422127: uvm_test_top.env.scoreboard [EBSB] Max Packet Size: '{} Min Packet Size: '{}
+
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   18
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[CLKDRV]     1
+[EBSB]     7
+[RNTST]     1
+[UVMTOP]     1
+[WRSEQ]     2
+[eb_counting_test]     6
+Simulation complete via $finish(1) at time 422126912 FS + 87
+/opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_root.svh:457     $finish;
+xcelium> exit
+xmsim: *N,COVCGN: Coverage configuration file command "set_covergroup -new_instance_reporting" can be specified to improve the scoping and naming of covergroup instances. It may be noted that subsequent merging of a coverage database saved with this command and a coverage database saved without this command is not allowed.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "clk_period_cg" will not be dumped to database as per_instance option value is set to 0:../clk_uvc/clk_coverage_collector.sv, 6.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "wr_cg" will not be dumped to database as per_instance option value is set to 0:./eb_coverage_collector.sv, 13.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "rd_cg" will not be dumped to database as per_instance option value is set to 0:./eb_coverage_collector.sv, 23.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "clk_period_cg" will not be dumped to database as per_instance option value is set to 0:../clk_uvc/clk_coverage_collector.sv, 6.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "wr_cg" will not be dumped to database as per_instance option value is set to 0:./eb_coverage_collector.sv, 13.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "rd_cg" will not be dumped to database as per_instance option value is set to 0:./eb_coverage_collector.sv, 23.
+
+coverage setup:
+  workdir  :  /home/icer/temp
+  dutinst  :  eb_tb_top(eb_tb_top)
+  scope    :  scope
+  testname :  eb_counting_test
+
+coverage files:
+  model(design data) :  /home/icer/temp/scope/icc_3967ec2e_23acd462.ucm (reused)
+  data               :  /home/icer/temp/scope/eb_counting_test/icc_3967ec2e_23acd462.ucd
+TOOL:	xrun(64)	20.09-s009: Exiting on Mar 18, 2020 at 23:28:49 +03  (total: 00:00:01)

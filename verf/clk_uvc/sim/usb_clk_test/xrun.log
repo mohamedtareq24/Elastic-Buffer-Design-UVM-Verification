@@ -1,0 +1,287 @@
+xrun(64): 20.09-s009: (c) Copyright 1995-2021 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	20.09-s009: Started on Feb 18, 2026 at 16:26:59 +03
+xrun
+	-f ./tb/run.f
+		-timescale 1ps/1fs
+		+incdir+./
+		+incdir+./tb
+		+incdir+../if
+		../if/clk_if.sv
+		./clk_pkg.sv
+		./tb/clk_test.sv
+		./tb/clk_tb_top.sv
+	-top clk_tb_top
+	-xmlibdirname sim/usb_clk_test/xcelium.d
+	-64bit
+	-sv
+	-uvm
+	-access +rwc
+	+UVM_TESTNAME=usb_clk_test
+	+UVM_VERBOSITY=UVM_MEDIUM
+	-svseed 1
+	-coverage U
+	-covoverwrite
+	-covworkdir /home/icer/temp
+	-covtest usb_clk_test
+	-l sim/usb_clk_test/xrun.log
+
+   User defined plus("+") options:
+	+UVM_VERBOSITY=UVM_MEDIUM
+
+Compiling UVM packages (uvm_pkg.sv cdns_uvm_pkg.sv) using uvmhome location /opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d
+file: ../if/clk_if.sv
+	interface worklib.clk_if:sv
+		errors: 0, warnings: 0
+file: ./clk_pkg.sv
+	package worklib.clk_pkg:sv
+		errors: 0, warnings: 0
+file: ./tb/clk_test.sv
+file: ./tb/clk_tb_top.sv
+	module worklib.clk_tb_top:sv
+		errors: 0, warnings: 0
+xmvlog: *W,SPDUSD: Include directory ./ given but not used.
+xmvlog: *W,SPDUSD: Include directory ./tb given but not used.
+xmvlog: *W,SPDUSD: Include directory ../if given but not used.
+	Total errors/warnings found outside modules and primitives:
+		errors: 0, warnings: 3
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Top level design units:
+		uvm_pkg
+		cdns_uvmapi
+		cdns_assert2uvm_pkg
+		cdns_uvm_pkg
+		clk_pkg
+		$unit_0x030a88a8
+		clk_tb_top
+xmelab: *W,DSEMEL: This SystemVerilog design will be simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+	Building instance overlay tables: .................... Done
+	Enabling instrumentation for coverage types: functional
+	Generating native compiled code:
+		worklib.uvm_pkg:sv <0x4e0937f3>
+			streams:   8, words:  7551
+		worklib.uvm_pkg:sv <0x2d43f172>
+			streams:   8, words:  7211
+		worklib.uvm_pkg:sv <0x1fd33aee>
+			streams:   7, words:  6621
+		worklib.uvm_pkg:sv <0x4ee5058d>
+			streams:   7, words:  1927
+		worklib.uvm_pkg:sv <0x26bb9bca>
+			streams:   8, words:  2774
+		worklib.uvm_pkg:sv <0x2f67d1ce>
+			streams:  22, words: 50873
+		worklib.uvm_pkg:sv <0x2f47de37>
+			streams:   7, words:  1927
+		worklib.uvm_pkg:sv <0x394d3514>
+			streams:   7, words:  3099
+		worklib.uvm_pkg:sv <0x41109306>
+			streams:   7, words:  3099
+		worklib.uvm_pkg:sv <0x5d369c68>
+			streams:  28, words: 26694
+		worklib.uvm_pkg:sv <0x57183292>
+			streams:  27, words: 25367
+		worklib.uvm_pkg:sv <0x1cf63c81>
+			streams:  23, words: 24858
+		worklib.uvm_pkg:sv <0x77f277d7>
+			streams:  14, words:  5954
+		worklib.uvm_pkg:sv <0x65a75db2>
+			streams:  26, words: 35009
+		worklib.uvm_pkg:sv <0x31f522a1>
+			streams:   7, words:  2431
+		worklib.uvm_pkg:sv <0x0cb4fbc9>
+			streams:  14, words: 16724
+		worklib.uvm_pkg:sv <0x58018759>
+			streams:  26, words: 30488
+		worklib.uvm_pkg:sv <0x152b5b8f>
+			streams:  25, words: 57504
+		worklib.uvm_pkg:sv <0x6f070214>
+			streams:  27, words: 33214
+		worklib.uvm_pkg:sv <0x0c985605>
+			streams:  26, words: 47621
+		worklib.uvm_pkg:sv <0x7221c520>
+			streams:  27, words: 35997
+		worklib.uvm_pkg:sv <0x20ece63d>
+			streams:  25, words: 53131
+		worklib.uvm_pkg:sv <0x068f21de>
+			streams:  27, words: 38075
+		worklib.uvm_pkg:sv <0x7311d177>
+			streams:  25, words: 58762
+		worklib.uvm_pkg:sv <0x07ce760b>
+			streams:  27, words: 42701
+		worklib.uvm_pkg:sv <0x3eb8fa3e>
+			streams:  25, words: 51719
+		worklib.uvm_pkg:sv <0x035238c9>
+			streams:  25, words: 54697
+		worklib.uvm_pkg:sv <0x12adcbff>
+			streams:  27, words: 35281
+		worklib.uvm_pkg:sv <0x69bff283>
+			streams:  25, words: 51347
+		worklib.uvm_pkg:sv <0x52295203>
+			streams:  28, words: 83359
+		worklib.uvm_pkg:sv <0x05d8ad1d>
+			streams:  59, words: 81740
+		worklib.cdns_uvm_pkg:sv <0x39e5e822>
+			streams:  27, words: 34504
+		worklib.cdns_uvm_pkg:sv <0x3188f5f5>
+			streams:   8, words:  4031
+		worklib.cdns_uvm_pkg:sv <0x16a8e679>
+			streams:  10, words:  8705
+		worklib.uvm_pkg:sv <0x53300468>
+			streams:  25, words: 25357
+		worklib.uvm_pkg:sv <0x595d3ce3>
+			streams:  25, words: 25072
+		worklib.uvm_pkg:sv <0x3ab16fe3>
+			streams:  25, words: 25072
+		worklib.clk_pkg:sv <0x78064a0c>
+			streams:  25, words: 24894
+		worklib.uvm_pkg:sv <0x116031f0>
+			streams:  23, words: 19180
+		worklib.\$unit_0x030a88a8 :compilation_unit <0x3140ea3e>
+			streams:  24, words: 21944
+		worklib.uvm_pkg:sv <0x61961e24>
+			streams:   7, words:  3099
+		worklib.uvm_pkg:sv <0x1320a804>
+			streams:  90, words: 115990
+		worklib.uvm_pkg:sv <0x110a9174>
+			streams:   9, words:  4539
+		worklib.uvm_pkg:sv <0x7b36045b>
+			streams:  51, words: 64131
+		worklib.uvm_pkg:sv <0x5f680577>
+			streams:  35, words: 52328
+		worklib.uvm_pkg:sv <0x26500347>
+			streams: 101, words: 120149
+		worklib.uvm_pkg:sv <0x12d4a0b9>
+			streams:  24, words: 28285
+		worklib.uvm_pkg:sv <0x76c02aef>
+			streams:  33, words: 31038
+		worklib.uvm_pkg:sv <0x4958d53e>
+			streams: 298, words: 341927
+		worklib.uvm_pkg:sv <0x0820eb66>
+			streams:  24, words: 21505
+		worklib.clk_pkg:sv <0x19dd08a0>
+			streams:  24, words: 48413
+		worklib.clk_tb_top:sv <0x56065b64>
+			streams:  67, words: 95761
+		worklib.clk_if:sv <0x41582748>
+			streams:   1, words:  1207
+		worklib.\$unit_0x030a88a8 :compilation_unit <0x6ca95964>
+			streams:   0, words:     0
+		worklib.clk_pkg:sv <0x4800857b>
+			streams:   0, words:     0
+		worklib.cdns_uvm_pkg:sv <0x3160ea8c>
+			streams: 134, words: 246065
+		worklib.cdns_uvmapi:svp <0x2d31eb3e>
+			streams:  27, words: 31790
+		worklib.cdns_assert2uvm_pkg:sv <0x53ab7929>
+			streams:   3, words:  2239
+		worklib.uvm_pkg:sv <0x6b7a3a11>
+			streams: 4438, words: 7173585
+	Building instance specific data structures.
+xmelab: *W,CGPIDF: Covergroup "per_instance" option , by default, is set as 0.
+xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_instance_reporting" can be specified to improve the scoping and naming of covergroup instances. It may be noted that subsequent merging of a coverage database saved with this command and a coverage database saved without this command is not allowed.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                       Instances  Unique
+		Modules:                       1       1
+		Interfaces:                    1       1
+		Verilog packages:              5       5
+		Registers:                 14552   10316
+		Named events:                  4      12
+		Initial blocks:              302     160
+		Parallel blocks:              28      29
+		Assertions:                    3       3
+		Covergroup Instances:          0       1
+		Compilation units:             1       1
+		SV Class declarations:       205     318
+		SV Class specializations:    402     402
+		Simulation timescale:        1ps
+	Writing initial simulation snapshot: worklib.clk_tb_top:sv
+Loading snapshot worklib.clk_tb_top:sv .................... Done
+SVSEED set from command line: 1
+xmsim: *W,RNDXCELON: A newer version of the SystemVerilog constraint solver is being used which has better support for array-solving, new solve-order mechanism, and seed stability enhancements..
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+xcelium> source /opt/rh/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> source /opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/additions/sv/files/tcl/uvm_sim.tcl
+xcelium> run
+----------------------------------------------------------------
+CDNS-UVM-1.1d (20.09-s009)
+(C) 2007-2013 Mentor Graphics Corporation
+(C) 2007-2013 Cadence Design Systems, Inc.
+(C) 2006-2013 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test usb_clk_test...
+UVM_INFO clk_driver.sv(45) @ 0: uvm_test_top.agent.driver [CLKDRV] Got base_clk_transaction:
+------------------------------------------------------------------------------------------
+Name                           Type                 Size  Value                           
+------------------------------------------------------------------------------------------
+tr                             usb_clk_transaction  -     @3811                           
+  sys_clk_period_ps            integral             32    'd3999                          
+  cdr_clk_period_ps            integral             32    'd4000                          
+  run_cycles                   integral             32    'd66592                         
+  sys_ssc_ppm                  integral             32    'd4759                          
+  cdr_ssc_ppm                  integral             32    'd4304                          
+  sys_ssc_dir                  integral             1     'h0                             
+  cdr_ssc_dir                  integral             1     'h0                             
+  ssc_enable                   integral             1     'h1                             
+  begin_time                   time                 64    0                               
+  depth                        int                  32    'd2                             
+  parent sequence (name)       string               3     seq                             
+  parent sequence (full name)  string               32    uvm_test_top.agent.sequencer.seq
+  sequencer                    string               28    uvm_test_top.agent.sequencer    
+------------------------------------------------------------------------------------------
+
+xmsim: *E,EILLVS: (File: ./clk_coverage_collector.sv, Line: 18):(Time: 4014496 FS + 0) Sampled value (0) for coverpoint (worklib.clk_pkg::clk_coverage_collector::clk_period_cg@3716_5.cdr_period_cp) is an illegal value.
+UVM_INFO /opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_objection.svh(1268) @ 266918997: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :    3
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[CLKDRV]     1
+[RNTST]     1
+[TEST_DONE]     1
+Simulation complete via $finish(1) at time 266918997192 FS + 49
+/opt/rh/XCELIUM2009/tools/methodology/UVM/CDNS-1.1d/sv/src/base/uvm_root.svh:457     $finish;
+xcelium> exit
+xmsim: *N,COVCGN: Coverage configuration file command "set_covergroup -new_instance_reporting" can be specified to improve the scoping and naming of covergroup instances. It may be noted that subsequent merging of a coverage database saved with this command and a coverage database saved without this command is not allowed.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "clk_period_cg" will not be dumped to database as per_instance option value is set to 0:./clk_coverage_collector.sv, 6.
+xmsim: *W,CGPIZE: Instance coverage for covergroup instance "clk_period_cg" will not be dumped to database as per_instance option value is set to 0:./clk_coverage_collector.sv, 6.
+
+coverage setup:
+  workdir  :  /home/icer/temp
+  dutinst  :  clk_tb_top(clk_tb_top)
+  scope    :  scope
+  testname :  usb_clk_test
+
+coverage files:
+  model(design data) :  /home/icer/temp/scope/icc_00000000_39ff44b6.ucm
+  data               :  /home/icer/temp/scope/usb_clk_test/icc_00000000_39ff44b6.ucd
+TOOL:	xrun(64)	20.09-s009: Exiting on Feb 18, 2026 at 16:27:16 +03  (total: 00:00:17)
