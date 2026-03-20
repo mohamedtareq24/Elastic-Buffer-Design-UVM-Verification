@@ -13,7 +13,9 @@ The Elastic Buffer consists of the following components:
 - **APB Wrapper**
 
 ### Block Diagram
-![eb_block_diagram](docs/eb_design.jpg)
+![PIPE](docs/PIPE.png)
+![eb_block_diagram](docs/eb_design.jpg) 
+
 ### Interfaces
 - **APB Interface**: Used for configuration and control.
 - **Read/Write Stream Interfaces**: Handle data input and output.
@@ -28,6 +30,9 @@ The Elastic Buffer consists of the following components:
 │   ├── wr_uvc/   # Write stream data interface component
 │   ├── if/       # Interface definitions for all UVC components
 │   ├── eb_env/   # Main Elastic Buffer verification environment
+│   │   ├── sim/  # Test Logs
+│   │   ├── cov_work/      # Coverage database for imc 
+│   │   └── REGRESSION/    # Regression test automation Scripts
 │   └── USB_3_GEN1_case.md  # USB 3.0 Gen1 use case documentation
 ├── scripts/      # TCL scripts and automation tools
 ├── docs/         # Documentation and diagrams
